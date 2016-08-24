@@ -1,4 +1,6 @@
-Welcome to your new Kafka Connect connector!
+This connector uses the twitter streaming api to listen for status update messages and 
+convert them to a Kafka Connect struct on the fly. The goal is to match as much of the 
+Twitter Status object as possible.
 
 # Configuration
 
