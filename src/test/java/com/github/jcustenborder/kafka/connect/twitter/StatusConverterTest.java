@@ -1,3 +1,18 @@
+/**
+ * Copyright © 2016 Jeremy Custenborder (jcustenborder@gmail.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.github.jcustenborder.kafka.connect.twitter;
 
 import org.apache.kafka.connect.data.Struct;
@@ -124,6 +139,13 @@ public class StatusConverterTest {
     return user;
   }
 
+  public static StatusDeletionNotice mockStatusDeletionNotice() {
+    StatusDeletionNotice statusDeletionNotice = mock(StatusDeletionNotice.class);
+    when(statusDeletionNotice.getStatusId()).thenReturn(1234565345L);
+    when(statusDeletionNotice.getUserId()).thenReturn(6543456354L);
+    return statusDeletionNotice;
+  }
+
   List<Long> convert(long[] values) {
     List<Long> list = new ArrayList<>();
     for (Long l : values) {
@@ -139,10 +161,6 @@ public class StatusConverterTest {
     }
     return list;
   }
-
-
-
-
 
   void assertStatus(Status status, Struct struct) {
     assertEquals(status.getCreatedAt(), struct.get("CreatedAt"), "CreatedAt does not match.");
@@ -245,7 +263,7 @@ public class StatusConverterTest {
   @Test
   public void convertStatus() {
     Status status = mockStatus();
-    Struct struct = new Struct(StatusConverter.statusSchema);
+    Struct struct = new Struct(StatusConverter.STATUS_SCHEMA);
     StatusConverter.convert(status, struct);
     assertStatus(status, struct);
   }
@@ -253,7 +271,7 @@ public class StatusConverterTest {
   @Test
   public void convertUser() {
     User user = mockUser();
-    Struct struct = new Struct(StatusConverter.userSchema);
+    Struct struct = new Struct(StatusConverter.USER_SCHEMA);
     StatusConverter.convert(user, struct);
     assertUser(user, struct);
   }
@@ -261,7 +279,7 @@ public class StatusConverterTest {
   @Test
   public void convertPlace() {
     Place place = mockPlace();
-    Struct struct = new Struct(StatusConverter.placeSchema);
+    Struct struct = new Struct(StatusConverter.PLACE_SCHEMA);
     StatusConverter.convert(place, struct);
     assertPlace(place, struct);
   }
@@ -269,7 +287,7 @@ public class StatusConverterTest {
   @Test
   public void convertGeoLocation() {
     GeoLocation geoLocation = mockGeoLocation();
-    Struct struct = new Struct(StatusConverter.geoLocationSchema);
+    Struct struct = new Struct(StatusConverter.GEO_LOCATION_SCHEMA);
     StatusConverter.convert(geoLocation, struct);
     assertGeoLocation(geoLocation, struct);
   }
@@ -277,16 +295,9 @@ public class StatusConverterTest {
   @Test
   public void convertStatusKey() {
     Status status = mockStatus();
-    Struct struct = new Struct(StatusConverter.statusSchemaKey);
+    Struct struct = new Struct(StatusConverter.STATUS_SCHEMA_KEY);
     StatusConverter.convertKey(status, struct);
     assertKey(status, struct);
-  }
-
-  public static StatusDeletionNotice mockStatusDeletionNotice() {
-    StatusDeletionNotice statusDeletionNotice = mock(StatusDeletionNotice.class);
-    when(statusDeletionNotice.getStatusId()).thenReturn(1234565345L);
-    when(statusDeletionNotice.getUserId()).thenReturn(6543456354L);
-    return statusDeletionNotice;
   }
 
   void assertStatusDeletionNotice(StatusDeletionNotice statusDeletionNotice, Struct struct) {
@@ -301,7 +312,7 @@ public class StatusConverterTest {
   @Test
   public void convertStatusDeletionNotice() {
     StatusDeletionNotice statusDeletionNotice = mockStatusDeletionNotice();
-    Struct struct = new Struct(StatusConverter.schemaStatusDeletionNotice);
+    Struct struct = new Struct(StatusConverter.SCHEMA_STATUS_DELETION_NOTICE);
     StatusConverter.convert(statusDeletionNotice, struct);
     assertStatusDeletionNotice(statusDeletionNotice, struct);
   }
@@ -309,7 +320,7 @@ public class StatusConverterTest {
   @Test
   public void convertKeyStatusDeletionNotice() {
     StatusDeletionNotice statusDeletionNotice = mockStatusDeletionNotice();
-    Struct struct = new Struct(StatusConverter.schemaStatusDeletionNoticeKey);
+    Struct struct = new Struct(StatusConverter.SCHEMA_STATUS_DELETION_NOTICE_KEY);
     StatusConverter.convertKey(statusDeletionNotice, struct);
     assertStatusDeletionNoticeKey(statusDeletionNotice, struct);
   }
