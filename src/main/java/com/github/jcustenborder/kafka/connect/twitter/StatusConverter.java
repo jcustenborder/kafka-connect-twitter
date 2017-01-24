@@ -1,4 +1,19 @@
-package io.confluent.kafka.connect.twitter;
+/**
+ * Copyright © 2016 Jeremy Custenborder (jcustenborder@gmail.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.github.jcustenborder.kafka.connect.twitter;
 
 import org.apache.kafka.connect.data.Schema;
 import org.apache.kafka.connect.data.SchemaBuilder;
@@ -15,11 +30,17 @@ import java.util.List;
 
 public class StatusConverter {
 
-  public static final Schema userSchema;
+  public static final Schema USER_SCHEMA;
+  public final static Schema PLACE_SCHEMA;
+  public final static Schema GEO_LOCATION_SCHEMA;
+  public static final Schema SCHEMA_STATUS_DELETION_NOTICE;
+  public static final Schema SCHEMA_STATUS_DELETION_NOTICE_KEY;
+  static final Schema STATUS_SCHEMA_KEY;
+  static final Schema STATUS_SCHEMA;
 
   static {
-    userSchema = SchemaBuilder.struct()
-        .name("io.confluent.examples.kafka.connect.twitter.User")
+    USER_SCHEMA = SchemaBuilder.struct()
+        .name("com.github.jcustenborder.kafka.connect.twitter.User")
         .doc("Return the user associated with the status.\n" +
             "This can be null if the instance is from User.getStatus().")
         .field("Id", SchemaBuilder.int64().doc("Returns the id of the user").optional().build())
@@ -70,6 +91,83 @@ public class StatusConverter {
         .field("ListedCount", SchemaBuilder.int32().doc("Returns the number of public lists the user is listed on, or -1 if the count is unavailable.").optional().build())
         .field("FollowRequestSent", SchemaBuilder.bool().doc("Returns true if the authenticating user has requested to follow this user, otherwise false.").optional().build())
         .field("WithheldInCountries", SchemaBuilder.array(Schema.STRING_SCHEMA).doc("Returns the list of country codes where the user is withheld").build())
+        .build();
+  }
+
+  static {
+    PLACE_SCHEMA = SchemaBuilder.struct()
+        .name("com.github.jcustenborder.kafka.connect.twitter.Place")
+        .optional()
+        .doc("Returns the place attached to this status")
+        .field("Name", SchemaBuilder.string().optional().build())
+        .field("StreetAddress", SchemaBuilder.string().optional().build())
+        .field("CountryCode", SchemaBuilder.string().optional().build())
+        .field("Id", SchemaBuilder.string().optional().build())
+        .field("Country", SchemaBuilder.string().optional().build())
+        .field("PlaceType", SchemaBuilder.string().optional().build())
+        .field("URL", SchemaBuilder.string().optional().build())
+        .field("FullName", SchemaBuilder.string().optional().build())
+        .build();
+  }
+
+  static {
+    GEO_LOCATION_SCHEMA = SchemaBuilder.struct()
+        .name("com.github.jcustenborder.kafka.connect.twitter.GeoLocation")
+        .optional()
+        .doc("Returns The location that this tweet refers to if available.")
+        .field("Latitude", Schema.FLOAT64_SCHEMA)
+        .field("Longitude", Schema.FLOAT64_SCHEMA)
+        .build();
+  }
+
+  static {
+    STATUS_SCHEMA_KEY = SchemaBuilder.struct()
+        .name("com.github.jcustenborder.kafka.connect.twitter.StatusKey")
+        .doc("Key for a twitter status.")
+        .field("Id", Schema.OPTIONAL_INT64_SCHEMA)
+        .build();
+  }
+
+  static {
+    STATUS_SCHEMA = SchemaBuilder.struct()
+        .name("com.github.jcustenborder.kafka.connect.twitter.Status")
+        .field("CreatedAt", Timestamp.builder().doc("Return the created_at").optional().build())
+        .field("Id", SchemaBuilder.int64().doc("Returns the id of the status").optional().build())
+        .field("Text", SchemaBuilder.string().doc("Returns the text of the status").optional().build())
+        .field("Source", SchemaBuilder.string().doc("Returns the source").optional().build())
+        .field("Truncated", SchemaBuilder.bool().doc("Test if the status is truncated").optional().build())
+        .field("InReplyToStatusId", SchemaBuilder.int64().doc("Returns the in_reply_tostatus_id").optional().build())
+        .field("InReplyToUserId", SchemaBuilder.int64().doc("Returns the in_reply_user_id").optional().build())
+        .field("InReplyToScreenName", SchemaBuilder.string().doc("Returns the in_reply_to_screen_name").optional().build())
+        .field("GeoLocation", GEO_LOCATION_SCHEMA)
+        .field("Place", PLACE_SCHEMA)
+        .field("Favorited", SchemaBuilder.bool().doc("Test if the status is favorited").optional().build())
+        .field("Retweeted", SchemaBuilder.bool().doc("Test if the status is retweeted").optional().build())
+        .field("FavoriteCount", SchemaBuilder.int32().doc("Indicates approximately how many times this Tweet has been \"favorited\" by Twitter users.").optional().build())
+        .field("User", USER_SCHEMA)
+        .field("Retweet", SchemaBuilder.bool().optional().build())
+        .field("Contributors", SchemaBuilder.array(Schema.INT64_SCHEMA).doc("Returns an array of contributors, or null if no contributor is associated with this status.").build())
+        .field("RetweetCount", SchemaBuilder.int32().doc("Returns the number of times this tweet has been retweeted, or -1 when the tweet was created before this feature was enabled.").optional().build())
+        .field("RetweetedByMe", SchemaBuilder.bool().optional().build())
+        .field("CurrentUserRetweetId", SchemaBuilder.int64().doc("Returns the authenticating user's retweet's id of this tweet, or -1L when the tweet was created before this feature was enabled.").optional().build())
+        .field("PossiblySensitive", SchemaBuilder.bool().optional().build())
+        .field("Lang", SchemaBuilder.string().doc("Returns the lang of the status text if available.").optional().build())
+        .field("WithheldInCountries", SchemaBuilder.array(Schema.STRING_SCHEMA).doc("Returns the list of country codes where the tweet is withheld").build())
+        .build();
+  }
+
+  static {
+    SCHEMA_STATUS_DELETION_NOTICE = SchemaBuilder.struct()
+        .name("com.github.jcustenborder.kafka.connect.twitter.StatusDeletionNotice")
+        .field("StatusId", Schema.INT64_SCHEMA)
+        .field("UserId", Schema.INT64_SCHEMA)
+        .build();
+  }
+
+  static {
+    SCHEMA_STATUS_DELETION_NOTICE_KEY = SchemaBuilder.struct()
+        .name("com.github.jcustenborder.kafka.connect.twitter.StatusDeletionNoticeKey")
+        .field("StatusId", Schema.INT64_SCHEMA)
         .build();
   }
 
@@ -133,26 +231,6 @@ public class StatusConverter {
 
   }
 
-
-  public final static Schema placeSchema;
-
-  static {
-    placeSchema = SchemaBuilder.struct()
-        .name("io.confluent.examples.kafka.connect.twitter.Place")
-        .optional()
-        .doc("Returns the place attached to this status")
-        .field("Name", SchemaBuilder.string().optional().build())
-        .field("StreetAddress", SchemaBuilder.string().optional().build())
-        .field("CountryCode", SchemaBuilder.string().optional().build())
-        .field("Id", SchemaBuilder.string().optional().build())
-        .field("Country", SchemaBuilder.string().optional().build())
-        .field("PlaceType", SchemaBuilder.string().optional().build())
-        .field("URL", SchemaBuilder.string().optional().build())
-        .field("FullName", SchemaBuilder.string().optional().build())
-        .build();
-  }
-
-
   public static void convert(Place place, Struct struct) {
     if (null == place) {
       return;
@@ -167,18 +245,6 @@ public class StatusConverter {
         .put("FullName", place.getFullName());
   }
 
-  public final static Schema geoLocationSchema;
-
-  static {
-    geoLocationSchema = SchemaBuilder.struct()
-        .name("io.confluent.examples.kafka.connect.twitter.GeoLocation")
-        .optional()
-        .doc("Returns The location that this tweet refers to if available.")
-        .field("Latitude", Schema.FLOAT64_SCHEMA)
-        .field("Longitude", Schema.FLOAT64_SCHEMA)
-        .build();
-  }
-
   public static void convert(GeoLocation geoLocation, Struct struct) {
     if (null == geoLocation) {
       return;
@@ -187,49 +253,8 @@ public class StatusConverter {
         .put("Longitude", geoLocation.getLongitude());
   }
 
-  static final Schema statusSchemaKey;
-
-  static {
-    statusSchemaKey = SchemaBuilder.struct()
-        .name("io.confluent.examples.kafka.connect.twitter.StatusKey")
-        .doc("Key for a twitter status.")
-        .field("Id", Schema.OPTIONAL_INT64_SCHEMA)
-        .build();
-  }
-
   public static void convertKey(Status status, Struct struct) {
     struct.put("Id", status.getId());
-  }
-
-
-  static final Schema statusSchema;
-
-  static {
-    statusSchema = SchemaBuilder.struct()
-        .name("io.confluent.examples.kafka.connect.twitter.Status")
-        .field("CreatedAt", Timestamp.builder().doc("Return the created_at").optional().build())
-        .field("Id", SchemaBuilder.int64().doc("Returns the id of the status").optional().build())
-        .field("Text", SchemaBuilder.string().doc("Returns the text of the status").optional().build())
-        .field("Source", SchemaBuilder.string().doc("Returns the source").optional().build())
-        .field("Truncated", SchemaBuilder.bool().doc("Test if the status is truncated").optional().build())
-        .field("InReplyToStatusId", SchemaBuilder.int64().doc("Returns the in_reply_tostatus_id").optional().build())
-        .field("InReplyToUserId", SchemaBuilder.int64().doc("Returns the in_reply_user_id").optional().build())
-        .field("InReplyToScreenName", SchemaBuilder.string().doc("Returns the in_reply_to_screen_name").optional().build())
-        .field("GeoLocation", geoLocationSchema)
-        .field("Place", placeSchema)
-        .field("Favorited", SchemaBuilder.bool().doc("Test if the status is favorited").optional().build())
-        .field("Retweeted", SchemaBuilder.bool().doc("Test if the status is retweeted").optional().build())
-        .field("FavoriteCount", SchemaBuilder.int32().doc("Indicates approximately how many times this Tweet has been \"favorited\" by Twitter users.").optional().build())
-        .field("User", userSchema)
-        .field("Retweet", SchemaBuilder.bool().optional().build())
-        .field("Contributors", SchemaBuilder.array(Schema.INT64_SCHEMA).doc("Returns an array of contributors, or null if no contributor is associated with this status.").build())
-        .field("RetweetCount", SchemaBuilder.int32().doc("Returns the number of times this tweet has been retweeted, or -1 when the tweet was created before this feature was enabled.").optional().build())
-        .field("RetweetedByMe", SchemaBuilder.bool().optional().build())
-        .field("CurrentUserRetweetId", SchemaBuilder.int64().doc("Returns the authenticating user's retweet's id of this tweet, or -1L when the tweet was created before this feature was enabled.").optional().build())
-        .field("PossiblySensitive", SchemaBuilder.bool().optional().build())
-        .field("Lang", SchemaBuilder.string().doc("Returns the lang of the status text if available.").optional().build())
-        .field("WithheldInCountries", SchemaBuilder.array(Schema.STRING_SCHEMA).doc("Returns the list of country codes where the tweet is withheld").build())
-        .build();
   }
 
   public static void convert(Status status, Struct struct) {
@@ -254,7 +279,7 @@ public class StatusConverter {
 
     Struct userStruct;
     if (null != status.getUser()) {
-      userStruct = new Struct(userSchema);
+      userStruct = new Struct(USER_SCHEMA);
       convert(status.getUser(), userStruct);
     } else {
       userStruct = null;
@@ -263,7 +288,7 @@ public class StatusConverter {
 
     Struct placeStruct;
     if (null != status.getPlace()) {
-      placeStruct = new Struct(placeSchema);
+      placeStruct = new Struct(PLACE_SCHEMA);
       convert(status.getPlace(), placeStruct);
     } else {
       placeStruct = null;
@@ -272,7 +297,7 @@ public class StatusConverter {
 
     Struct geoLocationStruct;
     if (null != status.getGeoLocation()) {
-      geoLocationStruct = new Struct(geoLocationSchema);
+      geoLocationStruct = new Struct(GEO_LOCATION_SCHEMA);
       convert(status.getGeoLocation(), geoLocationStruct);
     } else {
       geoLocationStruct = null;
@@ -297,28 +322,9 @@ public class StatusConverter {
     struct.put("WithheldInCountries", withheldInCountries);
   }
 
-  public static final Schema schemaStatusDeletionNotice;
-
-  static {
-    schemaStatusDeletionNotice = SchemaBuilder.struct()
-        .name("io.confluent.examples.kafka.connect.twitter.StatusDeletionNotice")
-        .field("StatusId", Schema.INT64_SCHEMA)
-        .field("UserId", Schema.INT64_SCHEMA)
-        .build();
-  }
-
   public static void convert(StatusDeletionNotice statusDeletionNotice, Struct struct) {
     struct.put("StatusId", statusDeletionNotice.getStatusId());
     struct.put("UserId", statusDeletionNotice.getUserId());
-  }
-
-  public static final Schema schemaStatusDeletionNoticeKey;
-
-  static {
-    schemaStatusDeletionNoticeKey = SchemaBuilder.struct()
-        .name("io.confluent.examples.kafka.connect.twitter.StatusDeletionNoticeKey")
-        .field("StatusId", Schema.INT64_SCHEMA)
-        .build();
   }
 
   public static void convertKey(StatusDeletionNotice statusDeletionNotice, Struct struct) {
