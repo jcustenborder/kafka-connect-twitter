@@ -1,4 +1,4 @@
-package io.confluent.kafka.connect.twitter;
+package com.github.jcustenborder.kafka.connect.twitter;
 
 /**
  * Created by jeremy on 5/3/16.

@@ -1,4 +1,4 @@
-package io.confluent.kafka.connect.twitter;
+package com.github.jcustenborder.kafka.connect.twitter;
 
 import org.apache.kafka.connect.data.Schema;
 import org.apache.kafka.connect.data.SchemaBuilder;
@@ -19,7 +19,7 @@ public class StatusConverter {
 
   static {
     userSchema = SchemaBuilder.struct()
-        .name("io.confluent.examples.kafka.connect.twitter.User")
+        .name("com.github.jcustenborder.kafka.connect.twitter.User")
         .doc("Return the user associated with the status.\n" +
             "This can be null if the instance is from User.getStatus().")
         .field("Id", SchemaBuilder.int64().doc("Returns the id of the user").optional().build())
@@ -138,7 +138,7 @@ public class StatusConverter {
 
   static {
     placeSchema = SchemaBuilder.struct()
-        .name("io.confluent.examples.kafka.connect.twitter.Place")
+        .name("com.github.jcustenborder.kafka.connect.twitter.Place")
         .optional()
         .doc("Returns the place attached to this status")
         .field("Name", SchemaBuilder.string().optional().build())
@@ -171,7 +171,7 @@ public class StatusConverter {
 
   static {
     geoLocationSchema = SchemaBuilder.struct()
-        .name("io.confluent.examples.kafka.connect.twitter.GeoLocation")
+        .name("com.github.jcustenborder.kafka.connect.twitter.GeoLocation")
         .optional()
         .doc("Returns The location that this tweet refers to if available.")
         .field("Latitude", Schema.FLOAT64_SCHEMA)
@@ -191,7 +191,7 @@ public class StatusConverter {
 
   static {
     statusSchemaKey = SchemaBuilder.struct()
-        .name("io.confluent.examples.kafka.connect.twitter.StatusKey")
+        .name("com.github.jcustenborder.kafka.connect.twitter.StatusKey")
         .doc("Key for a twitter status.")
         .field("Id", Schema.OPTIONAL_INT64_SCHEMA)
         .build();
@@ -206,7 +206,7 @@ public class StatusConverter {
 
   static {
     statusSchema = SchemaBuilder.struct()
-        .name("io.confluent.examples.kafka.connect.twitter.Status")
+        .name("com.github.jcustenborder.kafka.connect.twitter.Status")
         .field("CreatedAt", Timestamp.builder().doc("Return the created_at").optional().build())
         .field("Id", SchemaBuilder.int64().doc("Returns the id of the status").optional().build())
         .field("Text", SchemaBuilder.string().doc("Returns the text of the status").optional().build())
@@ -301,7 +301,7 @@ public class StatusConverter {
 
   static {
     schemaStatusDeletionNotice = SchemaBuilder.struct()
-        .name("io.confluent.examples.kafka.connect.twitter.StatusDeletionNotice")
+        .name("com.github.jcustenborder.kafka.connect.twitter.StatusDeletionNotice")
         .field("StatusId", Schema.INT64_SCHEMA)
         .field("UserId", Schema.INT64_SCHEMA)
         .build();
@@ -316,7 +316,7 @@ public class StatusConverter {
 
   static {
     schemaStatusDeletionNoticeKey = SchemaBuilder.struct()
-        .name("io.confluent.examples.kafka.connect.twitter.StatusDeletionNoticeKey")
+        .name("com.github.jcustenborder.kafka.connect.twitter.StatusDeletionNoticeKey")
         .field("StatusId", Schema.INT64_SCHEMA)
         .build();
   }

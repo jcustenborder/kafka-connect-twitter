@@ -1,7 +1,7 @@
-package io.confluent.kafka.connect.twitter;
+package com.github.jcustenborder.kafka.connect.twitter;
 
 import io.confluent.kafka.connect.utils.config.MarkdownFormatter;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class TwitterSourceConnectorConfigTest {
   @Test

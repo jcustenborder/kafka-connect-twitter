@@ -1,4 +1,4 @@
-package io.confluent.kafka.connect.twitter;
+package com.github.jcustenborder.kafka.connect.twitter;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;

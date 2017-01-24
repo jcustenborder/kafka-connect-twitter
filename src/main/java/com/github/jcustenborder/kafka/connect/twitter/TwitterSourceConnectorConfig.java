@@ -1,4 +1,4 @@
-package io.confluent.kafka.connect.twitter;
+package com.github.jcustenborder.kafka.connect.twitter;
 
 import com.google.common.collect.Iterables;
 import org.apache.kafka.common.config.AbstractConfig;

@@ -21,7 +21,7 @@ Twitter Status object as possible.
 ```
 name=TwitterSourceConnector
 tasks.max=1
-connector.class=io.confluent.kafka.connect.twitter.TwitterSourceConnector
+connector.class=com.github.jcustenborder.kafka.connect.TwitterSourceConnector
 twitter.oauth.consumerKey=<insert your value>
 twitter.oauth.consumerSecret=<insert your value>
 twitter.oauth.accessToken=<insert your value>

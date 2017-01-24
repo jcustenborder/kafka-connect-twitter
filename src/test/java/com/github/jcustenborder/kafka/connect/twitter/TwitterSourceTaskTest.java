@@ -1,6 +1,7 @@
-package io.confluent.kafka.connect.twitter;
+package com.github.jcustenborder.kafka.connect.twitter;
 
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 
 public class TwitterSourceTaskTest {
   @Test

@@ -1,7 +1,7 @@
-package io.confluent.kafka.connect.twitter;
+package com.github.jcustenborder.kafka.connect.twitter;
 
 import org.apache.kafka.connect.data.Struct;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import twitter4j.GeoLocation;
 import twitter4j.Place;
 import twitter4j.Status;
@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -140,102 +140,106 @@ public class StatusConverterTest {
     return list;
   }
 
+
+
+
+
   void assertStatus(Status status, Struct struct) {
-    assertEquals("CreatedAt does not match.", status.getCreatedAt(), struct.get("CreatedAt"));
-    assertEquals("Id does not match.", status.getId(), struct.get("Id"));
-    assertEquals("Text does not match.", status.getText(), struct.get("Text"));
-    assertEquals("Source does not match.", status.getSource(), struct.get("Source"));
-    assertEquals("Truncated does not match.", status.isTruncated(), struct.get("Truncated"));
-    assertEquals("InReplyToStatusId does not match.", status.getInReplyToStatusId(), struct.get("InReplyToStatusId"));
-    assertEquals("InReplyToUserId does not match.", status.getInReplyToUserId(), struct.get("InReplyToUserId"));
-    assertEquals("InReplyToScreenName does not match.", status.getInReplyToScreenName(), struct.get("InReplyToScreenName"));
-    assertEquals("Favorited does not match.", status.isFavorited(), struct.get("Favorited"));
-    assertEquals("Retweeted does not match.", status.isRetweeted(), struct.get("Retweeted"));
-    assertEquals("FavoriteCount does not match.", status.getFavoriteCount(), struct.get("FavoriteCount"));
-    assertEquals("Retweet does not match.", status.isRetweet(), struct.get("Retweet"));
-    assertEquals("RetweetCount does not match.", status.getRetweetCount(), struct.get("RetweetCount"));
-    assertEquals("RetweetedByMe does not match.", status.isRetweetedByMe(), struct.get("RetweetedByMe"));
-    assertEquals("CurrentUserRetweetId does not match.", status.getCurrentUserRetweetId(), struct.get("CurrentUserRetweetId"));
-    assertEquals("PossiblySensitive does not match.", status.isPossiblySensitive(), struct.get("PossiblySensitive"));
-    assertEquals("Lang does not match.", status.getLang(), struct.get("Lang"));
+    assertEquals(status.getCreatedAt(), struct.get("CreatedAt"), "CreatedAt does not match.");
+    assertEquals(status.getId(), struct.get("Id"), "Id does not match.");
+    assertEquals(status.getText(), struct.get("Text"), "Text does not match.");
+    assertEquals(status.getSource(), struct.get("Source"), "Source does not match.");
+    assertEquals(status.isTruncated(), struct.get("Truncated"), "Truncated does not match.");
+    assertEquals(status.getInReplyToStatusId(), struct.get("InReplyToStatusId"), "InReplyToStatusId does not match.");
+    assertEquals(status.getInReplyToUserId(), struct.get("InReplyToUserId"), "InReplyToUserId does not match.");
+    assertEquals(status.getInReplyToScreenName(), struct.get("InReplyToScreenName"), "InReplyToScreenName does not match.");
+    assertEquals(status.isFavorited(), struct.get("Favorited"), "Favorited does not match.");
+    assertEquals(status.isRetweeted(), struct.get("Retweeted"), "Retweeted does not match.");
+    assertEquals(status.getFavoriteCount(), struct.get("FavoriteCount"), "FavoriteCount does not match.");
+    assertEquals(status.isRetweet(), struct.get("Retweet"), "Retweet does not match.");
+    assertEquals(status.getRetweetCount(), struct.get("RetweetCount"), "RetweetCount does not match.");
+    assertEquals(status.isRetweetedByMe(), struct.get("RetweetedByMe"), "RetweetedByMe does not match.");
+    assertEquals(status.getCurrentUserRetweetId(), struct.get("CurrentUserRetweetId"), "CurrentUserRetweetId does not match.");
+    assertEquals(status.isPossiblySensitive(), struct.get("PossiblySensitive"), "PossiblySensitive does not match.");
+    assertEquals(status.getLang(), struct.get("Lang"), "Lang does not match.");
 
     assertUser(status.getUser(), struct.getStruct("User"));
     assertPlace(status.getPlace(), struct.getStruct("Place"));
     assertGeoLocation(status.getGeoLocation(), struct.getStruct("GeoLocation"));
 
-    assertEquals("Contributors does not match.", convert(status.getContributors()), struct.getArray("Contributors"));
-    assertEquals("WithheldInCountries does not match.", convert(status.getWithheldInCountries()), struct.get("WithheldInCountries"));
+    assertEquals(convert(status.getContributors()), struct.getArray("Contributors"), "Contributors does not match.");
+    assertEquals(convert(status.getWithheldInCountries()), struct.get("WithheldInCountries"), "WithheldInCountries does not match.");
   }
 
   void assertGeoLocation(GeoLocation geoLocation, Struct struct) {
-    assertEquals(geoLocation.getLatitude(), struct.getFloat64("Latitude"), 1);
-    assertEquals(geoLocation.getLongitude(), struct.getFloat64("Longitude"), 1);
+    assertEquals(struct.getFloat64("Latitude"), 1, geoLocation.getLatitude());
+    assertEquals(struct.getFloat64("Longitude"), 1, geoLocation.getLongitude());
   }
 
   void assertPlace(Place place, Struct struct) {
-    assertEquals("Name does not match.", place.getName(), struct.get("Name"));
-    assertEquals("StreetAddress does not match.", place.getStreetAddress(), struct.get("StreetAddress"));
-    assertEquals("CountryCode does not match.", place.getCountryCode(), struct.get("CountryCode"));
-    assertEquals("Id does not match.", place.getId(), struct.get("Id"));
-    assertEquals("Country does not match.", place.getCountry(), struct.get("Country"));
-    assertEquals("PlaceType does not match.", place.getPlaceType(), struct.get("PlaceType"));
-    assertEquals("URL does not match.", place.getURL(), struct.get("URL"));
-    assertEquals("FullName does not match.", place.getFullName(), struct.get("FullName"));
+    assertEquals(place.getName(), struct.get("Name"), "Name does not match.");
+    assertEquals(place.getStreetAddress(), struct.get("StreetAddress"), "StreetAddress does not match.");
+    assertEquals(place.getCountryCode(), struct.get("CountryCode"), "CountryCode does not match.");
+    assertEquals(place.getId(), struct.get("Id"), "Id does not match.");
+    assertEquals(place.getCountry(), struct.get("Country"), "Country does not match.");
+    assertEquals(place.getPlaceType(), struct.get("PlaceType"), "PlaceType does not match.");
+    assertEquals(place.getURL(), struct.get("URL"), "URL does not match.");
+    assertEquals(place.getFullName(), struct.get("FullName"), "FullName does not match.");
   }
 
   void assertUser(User user, Struct struct) {
-    assertNotNull("struct should not be null.", struct);
-    assertEquals("Id does not match.", user.getId(), struct.get("Id"));
-    assertEquals("Name does not match.", user.getName(), struct.get("Name"));
-    assertEquals("ScreenName does not match.", user.getScreenName(), struct.get("ScreenName"));
-    assertEquals("Location does not match.", user.getLocation(), struct.get("Location"));
-    assertEquals("Description does not match.", user.getDescription(), struct.get("Description"));
-    assertEquals("ContributorsEnabled does not match.", user.isContributorsEnabled(), struct.get("ContributorsEnabled"));
-    assertEquals("ProfileImageURL does not match.", user.getProfileImageURL(), struct.get("ProfileImageURL"));
-    assertEquals("BiggerProfileImageURL does not match.", user.getBiggerProfileImageURL(), struct.get("BiggerProfileImageURL"));
-    assertEquals("MiniProfileImageURL does not match.", user.getMiniProfileImageURL(), struct.get("MiniProfileImageURL"));
-    assertEquals("OriginalProfileImageURL does not match.", user.getOriginalProfileImageURL(), struct.get("OriginalProfileImageURL"));
-    assertEquals("ProfileImageURLHttps does not match.", user.getProfileImageURLHttps(), struct.get("ProfileImageURLHttps"));
-    assertEquals("BiggerProfileImageURLHttps does not match.", user.getBiggerProfileImageURLHttps(), struct.get("BiggerProfileImageURLHttps"));
-    assertEquals("MiniProfileImageURLHttps does not match.", user.getMiniProfileImageURLHttps(), struct.get("MiniProfileImageURLHttps"));
-    assertEquals("OriginalProfileImageURLHttps does not match.", user.getOriginalProfileImageURLHttps(), struct.get("OriginalProfileImageURLHttps"));
-    assertEquals("DefaultProfileImage does not match.", user.isDefaultProfileImage(), struct.get("DefaultProfileImage"));
-    assertEquals("URL does not match.", user.getURL(), struct.get("URL"));
-    assertEquals("Protected does not match.", user.isProtected(), struct.get("Protected"));
-    assertEquals("FollowersCount does not match.", user.getFollowersCount(), struct.get("FollowersCount"));
-    assertEquals("ProfileBackgroundColor does not match.", user.getProfileBackgroundColor(), struct.get("ProfileBackgroundColor"));
-    assertEquals("ProfileTextColor does not match.", user.getProfileTextColor(), struct.get("ProfileTextColor"));
-    assertEquals("ProfileLinkColor does not match.", user.getProfileLinkColor(), struct.get("ProfileLinkColor"));
-    assertEquals("ProfileSidebarFillColor does not match.", user.getProfileSidebarFillColor(), struct.get("ProfileSidebarFillColor"));
-    assertEquals("ProfileSidebarBorderColor does not match.", user.getProfileSidebarBorderColor(), struct.get("ProfileSidebarBorderColor"));
-    assertEquals("ProfileUseBackgroundImage does not match.", user.isProfileUseBackgroundImage(), struct.get("ProfileUseBackgroundImage"));
-    assertEquals("DefaultProfile does not match.", user.isDefaultProfile(), struct.get("DefaultProfile"));
-    assertEquals("ShowAllInlineMedia does not match.", user.isShowAllInlineMedia(), struct.get("ShowAllInlineMedia"));
-    assertEquals("FriendsCount does not match.", user.getFriendsCount(), struct.get("FriendsCount"));
-    assertEquals("CreatedAt does not match.", user.getCreatedAt(), struct.get("CreatedAt"));
-    assertEquals("FavouritesCount does not match.", user.getFavouritesCount(), struct.get("FavouritesCount"));
-    assertEquals("UtcOffset does not match.", user.getUtcOffset(), struct.get("UtcOffset"));
-    assertEquals("TimeZone does not match.", user.getTimeZone(), struct.get("TimeZone"));
-    assertEquals("ProfileBackgroundImageURL does not match.", user.getProfileBackgroundImageURL(), struct.get("ProfileBackgroundImageURL"));
-    assertEquals("ProfileBackgroundImageUrlHttps does not match.", user.getProfileBackgroundImageUrlHttps(), struct.get("ProfileBackgroundImageUrlHttps"));
-    assertEquals("ProfileBannerURL does not match.", user.getProfileBannerURL(), struct.get("ProfileBannerURL"));
-    assertEquals("ProfileBannerRetinaURL does not match.", user.getProfileBannerRetinaURL(), struct.get("ProfileBannerRetinaURL"));
-    assertEquals("ProfileBannerIPadURL does not match.", user.getProfileBannerIPadURL(), struct.get("ProfileBannerIPadURL"));
-    assertEquals("ProfileBannerIPadRetinaURL does not match.", user.getProfileBannerIPadRetinaURL(), struct.get("ProfileBannerIPadRetinaURL"));
-    assertEquals("ProfileBannerMobileURL does not match.", user.getProfileBannerMobileURL(), struct.get("ProfileBannerMobileURL"));
-    assertEquals("ProfileBannerMobileRetinaURL does not match.", user.getProfileBannerMobileRetinaURL(), struct.get("ProfileBannerMobileRetinaURL"));
-    assertEquals("ProfileBackgroundTiled does not match.", user.isProfileBackgroundTiled(), struct.get("ProfileBackgroundTiled"));
-    assertEquals("Lang does not match.", user.getLang(), struct.get("Lang"));
-    assertEquals("StatusesCount does not match.", user.getStatusesCount(), struct.get("StatusesCount"));
-    assertEquals("GeoEnabled does not match.", user.isGeoEnabled(), struct.get("GeoEnabled"));
-    assertEquals("Verified does not match.", user.isVerified(), struct.get("Verified"));
-    assertEquals("Translator does not match.", user.isTranslator(), struct.get("Translator"));
-    assertEquals("ListedCount does not match.", user.getListedCount(), struct.get("ListedCount"));
-    assertEquals("FollowRequestSent does not match.", user.isFollowRequestSent(), struct.get("FollowRequestSent"));
+    assertNotNull(struct, "struct should not be null.");
+    assertEquals(user.getId(), struct.get("Id"), "Id does not match.");
+    assertEquals(user.getName(), struct.get("Name"), "Name does not match.");
+    assertEquals(user.getScreenName(), struct.get("ScreenName"), "ScreenName does not match.");
+    assertEquals(user.getLocation(), struct.get("Location"), "Location does not match.");
+    assertEquals(user.getDescription(), struct.get("Description"), "Description does not match.");
+    assertEquals(user.isContributorsEnabled(), struct.get("ContributorsEnabled"), "ContributorsEnabled does not match.");
+    assertEquals(user.getProfileImageURL(), struct.get("ProfileImageURL"), "ProfileImageURL does not match.");
+    assertEquals(user.getBiggerProfileImageURL(), struct.get("BiggerProfileImageURL"), "BiggerProfileImageURL does not match.");
+    assertEquals(user.getMiniProfileImageURL(), struct.get("MiniProfileImageURL"), "MiniProfileImageURL does not match.");
+    assertEquals(user.getOriginalProfileImageURL(), struct.get("OriginalProfileImageURL"), "OriginalProfileImageURL does not match.");
+    assertEquals(user.getProfileImageURLHttps(), struct.get("ProfileImageURLHttps"), "ProfileImageURLHttps does not match.");
+    assertEquals(user.getBiggerProfileImageURLHttps(), struct.get("BiggerProfileImageURLHttps"), "BiggerProfileImageURLHttps does not match.");
+    assertEquals(user.getMiniProfileImageURLHttps(), struct.get("MiniProfileImageURLHttps"), "MiniProfileImageURLHttps does not match.");
+    assertEquals(user.getOriginalProfileImageURLHttps(), struct.get("OriginalProfileImageURLHttps"), "OriginalProfileImageURLHttps does not match.");
+    assertEquals(user.isDefaultProfileImage(), struct.get("DefaultProfileImage"), "DefaultProfileImage does not match.");
+    assertEquals(user.getURL(), struct.get("URL"), "URL does not match.");
+    assertEquals(user.isProtected(), struct.get("Protected"), "Protected does not match.");
+    assertEquals(user.getFollowersCount(), struct.get("FollowersCount"), "FollowersCount does not match.");
+    assertEquals(user.getProfileBackgroundColor(), struct.get("ProfileBackgroundColor"), "ProfileBackgroundColor does not match.");
+    assertEquals(user.getProfileTextColor(), struct.get("ProfileTextColor"), "ProfileTextColor does not match.");
+    assertEquals(user.getProfileLinkColor(), struct.get("ProfileLinkColor"), "ProfileLinkColor does not match.");
+    assertEquals(user.getProfileSidebarFillColor(), struct.get("ProfileSidebarFillColor"), "ProfileSidebarFillColor does not match.");
+    assertEquals(user.getProfileSidebarBorderColor(), struct.get("ProfileSidebarBorderColor"), "ProfileSidebarBorderColor does not match.");
+    assertEquals(user.isProfileUseBackgroundImage(), struct.get("ProfileUseBackgroundImage"), "ProfileUseBackgroundImage does not match.");
+    assertEquals(user.isDefaultProfile(), struct.get("DefaultProfile"), "DefaultProfile does not match.");
+    assertEquals(user.isShowAllInlineMedia(), struct.get("ShowAllInlineMedia"), "ShowAllInlineMedia does not match.");
+    assertEquals(user.getFriendsCount(), struct.get("FriendsCount"), "FriendsCount does not match.");
+    assertEquals(user.getCreatedAt(), struct.get("CreatedAt"), "CreatedAt does not match.");
+    assertEquals(user.getFavouritesCount(), struct.get("FavouritesCount"), "FavouritesCount does not match.");
+    assertEquals(user.getUtcOffset(), struct.get("UtcOffset"), "UtcOffset does not match.");
+    assertEquals(user.getTimeZone(), struct.get("TimeZone"), "TimeZone does not match.");
+    assertEquals(user.getProfileBackgroundImageURL(), struct.get("ProfileBackgroundImageURL"), "ProfileBackgroundImageURL does not match.");
+    assertEquals(user.getProfileBackgroundImageUrlHttps(), struct.get("ProfileBackgroundImageUrlHttps"), "ProfileBackgroundImageUrlHttps does not match.");
+    assertEquals(user.getProfileBannerURL(), struct.get("ProfileBannerURL"), "ProfileBannerURL does not match.");
+    assertEquals(user.getProfileBannerRetinaURL(), struct.get("ProfileBannerRetinaURL"), "ProfileBannerRetinaURL does not match.");
+    assertEquals(user.getProfileBannerIPadURL(), struct.get("ProfileBannerIPadURL"), "ProfileBannerIPadURL does not match.");
+    assertEquals(user.getProfileBannerIPadRetinaURL(), struct.get("ProfileBannerIPadRetinaURL"), "ProfileBannerIPadRetinaURL does not match.");
+    assertEquals(user.getProfileBannerMobileURL(), struct.get("ProfileBannerMobileURL"), "ProfileBannerMobileURL does not match.");
+    assertEquals(user.getProfileBannerMobileRetinaURL(), struct.get("ProfileBannerMobileRetinaURL"), "ProfileBannerMobileRetinaURL does not match.");
+    assertEquals(user.isProfileBackgroundTiled(), struct.get("ProfileBackgroundTiled"), "ProfileBackgroundTiled does not match.");
+    assertEquals(user.getLang(), struct.get("Lang"), "Lang does not match.");
+    assertEquals(user.getStatusesCount(), struct.get("StatusesCount"), "StatusesCount does not match.");
+    assertEquals(user.isGeoEnabled(), struct.get("GeoEnabled"), "GeoEnabled does not match.");
+    assertEquals(user.isVerified(), struct.get("Verified"), "Verified does not match.");
+    assertEquals(user.isTranslator(), struct.get("Translator"), "Translator does not match.");
+    assertEquals(user.getListedCount(), struct.get("ListedCount"), "ListedCount does not match.");
+    assertEquals(user.isFollowRequestSent(), struct.get("FollowRequestSent"), "FollowRequestSent does not match.");
   }
 
   void assertKey(Status status, Struct struct) {
-    assertEquals("Id does not match.", status.getId(), struct.get("Id"));
+    assertEquals(status.getId(), struct.get("Id"), "Id does not match.");
   }
 
   @Test
@@ -286,12 +290,12 @@ public class StatusConverterTest {
   }
 
   void assertStatusDeletionNotice(StatusDeletionNotice statusDeletionNotice, Struct struct) {
-    assertEquals("StatusId does not match.", statusDeletionNotice.getStatusId(), struct.get("StatusId"));
-    assertEquals("UserId does not match.", statusDeletionNotice.getUserId(), struct.get("UserId"));
+    assertEquals(statusDeletionNotice.getStatusId(), struct.get("StatusId"), "StatusId does not match.");
+    assertEquals(statusDeletionNotice.getUserId(), struct.get("UserId"), "UserId does not match.");
   }
 
   void assertStatusDeletionNoticeKey(StatusDeletionNotice statusDeletionNotice, Struct struct) {
-    assertEquals("StatusId does not match.", statusDeletionNotice.getStatusId(), struct.get("StatusId"));
+    assertEquals(statusDeletionNotice.getStatusId(), struct.get("StatusId"), "StatusId does not match.");
   }
 
   @Test
