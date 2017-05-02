@@ -131,6 +131,7 @@ public class StatusConverter {
   static {
     STATUS_SCHEMA = SchemaBuilder.struct()
         .name("com.github.jcustenborder.kafka.connect.twitter.Status")
+        .doc("Twitter status message.")
         .field("CreatedAt", Timestamp.builder().doc("Return the created_at").optional().build())
         .field("Id", SchemaBuilder.int64().doc("Returns the id of the status").optional().build())
         .field("Text", SchemaBuilder.string().doc("Returns the text of the status").optional().build())
@@ -159,6 +160,7 @@ public class StatusConverter {
   static {
     SCHEMA_STATUS_DELETION_NOTICE = SchemaBuilder.struct()
         .name("com.github.jcustenborder.kafka.connect.twitter.StatusDeletionNotice")
+        .doc("Message that is received when a status is deleted from Twitter.")
         .field("StatusId", Schema.INT64_SCHEMA)
         .field("UserId", Schema.INT64_SCHEMA)
         .build();
@@ -167,6 +169,7 @@ public class StatusConverter {
   static {
     SCHEMA_STATUS_DELETION_NOTICE_KEY = SchemaBuilder.struct()
         .name("com.github.jcustenborder.kafka.connect.twitter.StatusDeletionNoticeKey")
+        .doc("Key for a message that is received when a status is deleted from Twitter.")
         .field("StatusId", Schema.INT64_SCHEMA)
         .build();
   }
