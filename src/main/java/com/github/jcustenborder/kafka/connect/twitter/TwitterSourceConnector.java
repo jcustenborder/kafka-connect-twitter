@@ -15,6 +15,8 @@
  */
 package com.github.jcustenborder.kafka.connect.twitter;
 
+import com.github.jcustenborder.kafka.connect.utils.VersionUtil;
+import com.github.jcustenborder.kafka.connect.utils.config.Description;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import org.apache.kafka.common.config.ConfigDef;
@@ -28,6 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Description("This Twitter Source connector is used to pull data from Twitter in realtime.")
 public class TwitterSourceConnector extends SourceConnector {
   private static Logger log = LoggerFactory.getLogger(TwitterSourceConnector.class);
   Map<String, String> settings;
@@ -35,7 +38,7 @@ public class TwitterSourceConnector extends SourceConnector {
 
   @Override
   public String version() {
-    return VersionUtil.getVersion();
+    return VersionUtil.version(this.getClass());
   }
 
   @Override
