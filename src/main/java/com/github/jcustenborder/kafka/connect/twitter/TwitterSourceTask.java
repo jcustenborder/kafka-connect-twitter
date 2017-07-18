@@ -15,6 +15,7 @@
  */
 package com.github.jcustenborder.kafka.connect.twitter;
 
+import com.github.jcustenborder.kafka.connect.utils.VersionUtil;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap;
 import org.apache.kafka.connect.data.Struct;
@@ -44,7 +45,7 @@ public class TwitterSourceTask extends SourceTask implements StatusListener {
 
   @Override
   public String version() {
-    return VersionUtil.getVersion();
+    return VersionUtil.version(this.getClass());
   }
 
   @Override
