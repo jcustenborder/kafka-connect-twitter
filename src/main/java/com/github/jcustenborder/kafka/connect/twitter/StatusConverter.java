@@ -48,8 +48,7 @@ public class StatusConverter {
 
   public static final Schema USER_SCHEMA = SchemaBuilder.struct()
       .name("com.github.jcustenborder.kafka.connect.twitter.User")
-      .doc("Return the user associated with the status.\n" +
-          "This can be null if the instance is from User.getStatus().")
+      .doc("Return the user associated with the status. This can be null if the instance is from User.getStatus().")
       .field("Id", SchemaBuilder.int64().doc("Returns the id of the user").optional().build())
       .field("Name", SchemaBuilder.string().doc("Returns the name of the user").optional().build())
       .field("ScreenName", SchemaBuilder.string().doc("Returns the screen name of the user").optional().build())
