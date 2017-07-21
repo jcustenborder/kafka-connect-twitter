@@ -8,6 +8,8 @@ Twitter Status object as possible.
 
 ## TwitterSourceConnector
 
+This Twitter Source connector is used to pull data from Twitter in realtime.
+
 ```properties
 name=connector1
 tasks.max=1
@@ -38,85 +40,6 @@ twitter.oauth.consumerKey=
 
 
 # Schemas
-
-## com.github.jcustenborder.kafka.connect.twitter.Status
-
-Twitter status message.
-
-| Name                 | Optional | Schema                                                                                                                    | Default Value | Documentation                                                                                                                    |
-|----------------------|----------|---------------------------------------------------------------------------------------------------------------------------|---------------|----------------------------------------------------------------------------------------------------------------------------------|
-| CreatedAt            | true     | [Timestamp](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Timestamp.html)                           |               | Return the created_at                                                                                                            |
-| Id                   | true     | [Int64](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#INT64)                       |               | Returns the id of the status                                                                                                     |
-| Text                 | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING)                     |               | Returns the text of the status                                                                                                   |
-| Source               | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING)                     |               | Returns the source                                                                                                               |
-| Truncated            | true     | [Boolean](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#BOOLEAN)                   |               | Test if the status is truncated                                                                                                  |
-| InReplyToStatusId    | true     | [Int64](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#INT64)                       |               | Returns the in_reply_tostatus_id                                                                                                 |
-| InReplyToUserId      | true     | [Int64](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#INT64)                       |               | Returns the in_reply_user_id                                                                                                     |
-| InReplyToScreenName  | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING)                     |               | Returns the in_reply_to_screen_name                                                                                              |
-| GeoLocation          | true     | [com.github.jcustenborder.kafka.connect.twitter.GeoLocation](#com.github.jcustenborder.kafka.connect.twitter.GeoLocation) |               | Returns The location that this tweet refers to if available.                                                                     |
-| Place                | true     | [com.github.jcustenborder.kafka.connect.twitter.Place](#com.github.jcustenborder.kafka.connect.twitter.Place)             |               | Returns the place attached to this status                                                                                        |
-| Favorited            | true     | [Boolean](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#BOOLEAN)                   |               | Test if the status is favorited                                                                                                  |
-| Retweeted            | true     | [Boolean](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#BOOLEAN)                   |               | Test if the status is retweeted                                                                                                  |
-| FavoriteCount        | true     | [Int32](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#INT32)                       |               | Indicates approximately how many times this Tweet has been "favorited" by Twitter users.                                         |
-| User                 | false    | [com.github.jcustenborder.kafka.connect.twitter.User](#com.github.jcustenborder.kafka.connect.twitter.User)               |               | Return the user associated with the status.
-This can be null if the instance is from User.getStatus().                           |
-| Retweet              | true     | [Boolean](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#BOOLEAN)                   |               |                                                                                                                                  |
-| Contributors         | false    | Array of [Int64](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#INT64)              |               | Returns an array of contributors, or null if no contributor is associated with this status.                                      |
-| RetweetCount         | true     | [Int32](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#INT32)                       |               | Returns the number of times this tweet has been retweeted, or -1 when the tweet was created before this feature was enabled.     |
-| RetweetedByMe        | true     | [Boolean](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#BOOLEAN)                   |               |                                                                                                                                  |
-| CurrentUserRetweetId | true     | [Int64](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#INT64)                       |               | Returns the authenticating user's retweet's id of this tweet, or -1L when the tweet was created before this feature was enabled. |
-| PossiblySensitive    | true     | [Boolean](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#BOOLEAN)                   |               |                                                                                                                                  |
-| Lang                 | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING)                     |               | Returns the lang of the status text if available.                                                                                |
-| WithheldInCountries  | false    | Array of [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING)            |               | Returns the list of country codes where the tweet is withheld                                                                    |
-
-## com.github.jcustenborder.kafka.connect.twitter.StatusKey
-
-Key for a twitter status.
-
-| Name | Optional | Schema                                                                                              | Default Value | Documentation |
-|------|----------|-----------------------------------------------------------------------------------------------------|---------------|---------------|
-| Id   | true     | [Int64](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#INT64) |               |               |
-
-## com.github.jcustenborder.kafka.connect.twitter.GeoLocation
-
-Returns The location that this tweet refers to if available.
-
-| Name      | Optional | Schema                                                                                                  | Default Value | Documentation |
-|-----------|----------|---------------------------------------------------------------------------------------------------------|---------------|---------------|
-| Latitude  | false    | [Float64](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#FLOAT64) |               |               |
-| Longitude | false    | [Float64](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#FLOAT64) |               |               |
-
-## com.github.jcustenborder.kafka.connect.twitter.Place
-
-Returns the place attached to this status
-
-| Name          | Optional | Schema                                                                                                | Default Value | Documentation |
-|---------------|----------|-------------------------------------------------------------------------------------------------------|---------------|---------------|
-| Name          | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING) |               |               |
-| StreetAddress | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING) |               |               |
-| CountryCode   | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING) |               |               |
-| Id            | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING) |               |               |
-| Country       | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING) |               |               |
-| PlaceType     | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING) |               |               |
-| URL           | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING) |               |               |
-| FullName      | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING) |               |               |
-
-## com.github.jcustenborder.kafka.connect.twitter.StatusDeletionNotice
-
-Message that is received when a status is deleted from Twitter.
-
-| Name     | Optional | Schema                                                                                              | Default Value | Documentation |
-|----------|----------|-----------------------------------------------------------------------------------------------------|---------------|---------------|
-| StatusId | false    | [Int64](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#INT64) |               |               |
-| UserId   | false    | [Int64](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#INT64) |               |               |
-
-## com.github.jcustenborder.kafka.connect.twitter.StatusDeletionNoticeKey
-
-Key for a message that is received when a status is deleted from Twitter.
-
-| Name     | Optional | Schema                                                                                              | Default Value | Documentation |
-|----------|----------|-----------------------------------------------------------------------------------------------------|---------------|---------------|
-| StatusId | false    | [Int64](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#INT64) |               |               |
 
 ## com.github.jcustenborder.kafka.connect.twitter.User
 
@@ -173,6 +96,143 @@ This can be null if the instance is from User.getStatus().
 | ListedCount                    | true     | [Int32](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#INT32)            |               | Returns the number of public lists the user is listed on, or -1 if the count is unavailable. |
 | FollowRequestSent              | true     | [Boolean](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#BOOLEAN)        |               | Returns true if the authenticating user has requested to follow this user, otherwise false.  |
 | WithheldInCountries            | false    | Array of [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING) |               | Returns the list of country codes where the user is withheld                                 |
+
+## com.github.jcustenborder.kafka.connect.twitter.Place
+
+Returns the place attached to this status
+
+| Name          | Optional | Schema                                                                                                | Default Value | Documentation |
+|---------------|----------|-------------------------------------------------------------------------------------------------------|---------------|---------------|
+| Name          | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING) |               |               |
+| StreetAddress | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING) |               |               |
+| CountryCode   | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING) |               |               |
+| Id            | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING) |               |               |
+| Country       | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING) |               |               |
+| PlaceType     | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING) |               |               |
+| URL           | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING) |               |               |
+| FullName      | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING) |               |               |
+
+## com.github.jcustenborder.kafka.connect.twitter.GeoLocation
+
+Returns The location that this tweet refers to if available.
+
+| Name      | Optional | Schema                                                                                                  | Default Value | Documentation |
+|-----------|----------|---------------------------------------------------------------------------------------------------------|---------------|---------------|
+| Latitude  | false    | [Float64](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#FLOAT64) |               |               |
+| Longitude | false    | [Float64](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#FLOAT64) |               |               |
+
+## com.github.jcustenborder.kafka.connect.twitter.StatusDeletionNotice
+
+Message that is received when a status is deleted from Twitter.
+
+| Name     | Optional | Schema                                                                                              | Default Value | Documentation |
+|----------|----------|-----------------------------------------------------------------------------------------------------|---------------|---------------|
+| StatusId | false    | [Int64](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#INT64) |               |               |
+| UserId   | false    | [Int64](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#INT64) |               |               |
+
+## com.github.jcustenborder.kafka.connect.twitter.StatusDeletionNoticeKey
+
+Key for a message that is received when a status is deleted from Twitter.
+
+| Name     | Optional | Schema                                                                                              | Default Value | Documentation |
+|----------|----------|-----------------------------------------------------------------------------------------------------|---------------|---------------|
+| StatusId | false    | [Int64](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#INT64) |               |               |
+
+## com.github.jcustenborder.kafka.connect.twitter.MediaEntity.Variant
+
+| Name        | Optional | Schema                                                                                                | Default Value | Documentation |
+|-------------|----------|-------------------------------------------------------------------------------------------------------|---------------|---------------|
+| Url         | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING) |               |               |
+| Bitrate     | true     | [Int32](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#INT32)   |               |               |
+| ContentType | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING) |               |               |
+
+## com.github.jcustenborder.kafka.connect.twitter.MediaEntity.Size
+
+| Name   | Optional | Schema                                                                                              | Default Value | Documentation |
+|--------|----------|-----------------------------------------------------------------------------------------------------|---------------|---------------|
+| Resize | true     | [Int32](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#INT32) |               |               |
+| Width  | true     | [Int32](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#INT32) |               |               |
+| Height | true     | [Int32](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#INT32) |               |               |
+
+## com.github.jcustenborder.kafka.connect.twitter.ExtendedMediaEntity
+
+| Name                   | Optional | Schema                                                                                                                                                                                                                                            | Default Value | Documentation |
+|------------------------|----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|---------------|
+| VideoAspectRatioWidth  | true     | [Int32](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#INT32)                                                                                                                                               |               |               |
+| VideoAspectRatioHeight | true     | [Int32](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#INT32)                                                                                                                                               |               |               |
+| VideoDurationMillis    | true     | [Int64](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#INT64)                                                                                                                                               |               |               |
+| VideoVariants          | true     | Array of [com.github.jcustenborder.kafka.connect.twitter.MediaEntity.Variant](#com.github.jcustenborder.kafka.connect.twitter.MediaEntity.Variant)                                                                                                |               |               |
+| ExtAltText             | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING)                                                                                                                                             |               |               |
+| Id                     | true     | [Int64](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#INT64)                                                                                                                                               |               |               |
+| Type                   | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING)                                                                                                                                             |               |               |
+| MediaURL               | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING)                                                                                                                                             |               |               |
+| Sizes                  | false    | Map of <[Int32](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#INT32), [com.github.jcustenborder.kafka.connect.twitter.MediaEntity.Size](#com.github.jcustenborder.kafka.connect.twitter.MediaEntity.Size)> |               |               |
+| MediaURLHttps          | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING)                                                                                                                                             |               |               |
+| URL                    | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING)                                                                                                                                             |               |               |
+| Text                   | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING)                                                                                                                                             |               |               |
+| ExpandedURL            | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING)                                                                                                                                             |               |               |
+| Start                  | true     | [Int32](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#INT32)                                                                                                                                               |               |               |
+| End                    | true     | [Int32](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#INT32)                                                                                                                                               |               |               |
+| DisplayURL             | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING)                                                                                                                                             |               |               |
+
+## com.github.jcustenborder.kafka.connect.twitter.HashtagEntity
+
+| Name  | Optional | Schema                                                                                                | Default Value | Documentation |
+|-------|----------|-------------------------------------------------------------------------------------------------------|---------------|---------------|
+| Text  | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING) |               |               |
+| Start | true     | [Int32](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#INT32)   |               |               |
+| End   | true     | [Int32](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#INT32)   |               |               |
+
+## com.github.jcustenborder.kafka.connect.twitter.MediaEntity
+
+| Name                   | Optional | Schema                                                                                                                                                                                                                                            | Default Value | Documentation |
+|------------------------|----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|---------------|
+| Id                     | true     | [Int64](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#INT64)                                                                                                                                               |               |               |
+| Type                   | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING)                                                                                                                                             |               |               |
+| MediaURL               | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING)                                                                                                                                             |               |               |
+| Sizes                  | false    | Map of <[Int32](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#INT32), [com.github.jcustenborder.kafka.connect.twitter.MediaEntity.Size](#com.github.jcustenborder.kafka.connect.twitter.MediaEntity.Size)> |               |               |
+| MediaURLHttps          | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING)                                                                                                                                             |               |               |
+| VideoAspectRatioWidth  | true     | [Int32](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#INT32)                                                                                                                                               |               |               |
+| VideoAspectRatioHeight | true     | [Int32](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#INT32)                                                                                                                                               |               |               |
+| VideoDurationMillis    | true     | [Int64](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#INT64)                                                                                                                                               |               |               |
+| VideoVariants          | true     | Array of [com.github.jcustenborder.kafka.connect.twitter.MediaEntity.Variant](#com.github.jcustenborder.kafka.connect.twitter.MediaEntity.Variant)                                                                                                |               |               |
+| ExtAltText             | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING)                                                                                                                                             |               |               |
+| URL                    | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING)                                                                                                                                             |               |               |
+| Text                   | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING)                                                                                                                                             |               |               |
+| ExpandedURL            | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING)                                                                                                                                             |               |               |
+| Start                  | true     | [Int32](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#INT32)                                                                                                                                               |               |               |
+| End                    | true     | [Int32](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#INT32)                                                                                                                                               |               |               |
+| DisplayURL             | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING)                                                                                                                                             |               |               |
+
+## com.github.jcustenborder.kafka.connect.twitter.SymbolEntity
+
+| Name  | Optional | Schema                                                                                                | Default Value | Documentation |
+|-------|----------|-------------------------------------------------------------------------------------------------------|---------------|---------------|
+| Start | true     | [Int32](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#INT32)   |               |               |
+| End   | true     | [Int32](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#INT32)   |               |               |
+| Text  | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING) |               |               |
+
+## com.github.jcustenborder.kafka.connect.twitter.URLEntity
+
+| Name        | Optional | Schema                                                                                                | Default Value | Documentation |
+|-------------|----------|-------------------------------------------------------------------------------------------------------|---------------|---------------|
+| URL         | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING) |               |               |
+| Text        | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING) |               |               |
+| ExpandedURL | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING) |               |               |
+| Start       | true     | [Int32](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#INT32)   |               |               |
+| End         | true     | [Int32](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#INT32)   |               |               |
+| DisplayURL  | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING) |               |               |
+
+## com.github.jcustenborder.kafka.connect.twitter.UserMentionEntity
+
+| Name       | Optional | Schema                                                                                                | Default Value | Documentation |
+|------------|----------|-------------------------------------------------------------------------------------------------------|---------------|---------------|
+| Name       | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING) |               |               |
+| Id         | true     | [Int64](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#INT64)   |               |               |
+| Text       | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING) |               |               |
+| ScreenName | true     | [String](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#STRING) |               |               |
+| Start      | true     | [Int32](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#INT32)   |               |               |
+| End        | true     | [Int32](https://kafka.apache.org/0102/javadoc/org/apache/kafka/connect/data/Schema.Type.html#INT32)   |               |               |
 
 
 
