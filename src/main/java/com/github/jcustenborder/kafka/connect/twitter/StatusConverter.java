@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,80 +19,85 @@ import org.apache.kafka.connect.data.Schema;
 import org.apache.kafka.connect.data.SchemaBuilder;
 import org.apache.kafka.connect.data.Struct;
 import org.apache.kafka.connect.data.Timestamp;
+import twitter4j.ExtendedMediaEntity;
 import twitter4j.GeoLocation;
+import twitter4j.HashtagEntity;
+import twitter4j.MediaEntity;
 import twitter4j.Place;
 import twitter4j.Status;
 import twitter4j.StatusDeletionNotice;
+import twitter4j.SymbolEntity;
+import twitter4j.URLEntity;
 import twitter4j.User;
+import twitter4j.UserMentionEntity;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class StatusConverter {
 
-  public static final Schema USER_SCHEMA;
+
   public final static Schema PLACE_SCHEMA;
   public final static Schema GEO_LOCATION_SCHEMA;
   public static final Schema SCHEMA_STATUS_DELETION_NOTICE;
   public static final Schema SCHEMA_STATUS_DELETION_NOTICE_KEY;
-  static final Schema STATUS_SCHEMA_KEY;
-  static final Schema STATUS_SCHEMA;
+  public static final Schema STATUS_SCHEMA_KEY;
+  public static final Schema STATUS_SCHEMA;
 
-  static {
-    USER_SCHEMA = SchemaBuilder.struct()
-        .name("com.github.jcustenborder.kafka.connect.twitter.User")
-        .doc("Return the user associated with the status.\n" +
-            "This can be null if the instance is from User.getStatus().")
-        .field("Id", SchemaBuilder.int64().doc("Returns the id of the user").optional().build())
-        .field("Name", SchemaBuilder.string().doc("Returns the name of the user").optional().build())
-        .field("ScreenName", SchemaBuilder.string().doc("Returns the screen name of the user").optional().build())
-        .field("Location", SchemaBuilder.string().doc("Returns the location of the user").optional().build())
-        .field("Description", SchemaBuilder.string().doc("Returns the description of the user").optional().build())
-        .field("ContributorsEnabled", SchemaBuilder.bool().doc("Tests if the user is enabling contributors").optional().build())
-        .field("ProfileImageURL", SchemaBuilder.string().doc("Returns the profile image url of the user").optional().build())
-        .field("BiggerProfileImageURL", SchemaBuilder.string().optional().build())
-        .field("MiniProfileImageURL", SchemaBuilder.string().optional().build())
-        .field("OriginalProfileImageURL", SchemaBuilder.string().optional().build())
-        .field("ProfileImageURLHttps", SchemaBuilder.string().optional().build())
-        .field("BiggerProfileImageURLHttps", SchemaBuilder.string().optional().build())
-        .field("MiniProfileImageURLHttps", SchemaBuilder.string().optional().build())
-        .field("OriginalProfileImageURLHttps", SchemaBuilder.string().optional().build())
-        .field("DefaultProfileImage", SchemaBuilder.bool().doc("Tests if the user has not uploaded their own avatar").optional().build())
-        .field("URL", SchemaBuilder.string().doc("Returns the url of the user").optional().build())
-        .field("Protected", SchemaBuilder.bool().doc("Test if the user status is protected").optional().build())
-        .field("FollowersCount", SchemaBuilder.int32().doc("Returns the number of followers").optional().build())
-        .field("ProfileBackgroundColor", SchemaBuilder.string().optional().build())
-        .field("ProfileTextColor", SchemaBuilder.string().optional().build())
-        .field("ProfileLinkColor", SchemaBuilder.string().optional().build())
-        .field("ProfileSidebarFillColor", SchemaBuilder.string().optional().build())
-        .field("ProfileSidebarBorderColor", SchemaBuilder.string().optional().build())
-        .field("ProfileUseBackgroundImage", SchemaBuilder.bool().optional().build())
-        .field("DefaultProfile", SchemaBuilder.bool().doc("Tests if the user has not altered the theme or background").optional().build())
-        .field("ShowAllInlineMedia", SchemaBuilder.bool().optional().build())
-        .field("FriendsCount", SchemaBuilder.int32().doc("Returns the number of users the user follows (AKA \"followings\")").optional().build())
-        .field("CreatedAt", Timestamp.builder().optional().build())
-        .field("FavouritesCount", SchemaBuilder.int32().optional().build())
-        .field("UtcOffset", SchemaBuilder.int32().optional().build())
-        .field("TimeZone", SchemaBuilder.string().optional().build())
-        .field("ProfileBackgroundImageURL", SchemaBuilder.string().optional().build())
-        .field("ProfileBackgroundImageUrlHttps", SchemaBuilder.string().optional().build())
-        .field("ProfileBannerURL", SchemaBuilder.string().optional().build())
-        .field("ProfileBannerRetinaURL", SchemaBuilder.string().optional().build())
-        .field("ProfileBannerIPadURL", SchemaBuilder.string().optional().build())
-        .field("ProfileBannerIPadRetinaURL", SchemaBuilder.string().optional().build())
-        .field("ProfileBannerMobileURL", SchemaBuilder.string().optional().build())
-        .field("ProfileBannerMobileRetinaURL", SchemaBuilder.string().optional().build())
-        .field("ProfileBackgroundTiled", SchemaBuilder.bool().optional().build())
-        .field("Lang", SchemaBuilder.string().doc("Returns the preferred language of the user").optional().build())
-        .field("StatusesCount", SchemaBuilder.int32().optional().build())
-        .field("GeoEnabled", SchemaBuilder.bool().optional().build())
-        .field("Verified", SchemaBuilder.bool().optional().build())
-        .field("Translator", SchemaBuilder.bool().optional().build())
-        .field("ListedCount", SchemaBuilder.int32().doc("Returns the number of public lists the user is listed on, or -1 if the count is unavailable.").optional().build())
-        .field("FollowRequestSent", SchemaBuilder.bool().doc("Returns true if the authenticating user has requested to follow this user, otherwise false.").optional().build())
-        .field("WithheldInCountries", SchemaBuilder.array(Schema.STRING_SCHEMA).doc("Returns the list of country codes where the user is withheld").build())
-        .build();
-  }
+  public static final Schema USER_SCHEMA = SchemaBuilder.struct()
+      .name("com.github.jcustenborder.kafka.connect.twitter.User")
+      .doc("Return the user associated with the status. This can be null if the instance is from User.getStatus().")
+      .field("Id", SchemaBuilder.int64().doc("Returns the id of the user").optional().build())
+      .field("Name", SchemaBuilder.string().doc("Returns the name of the user").optional().build())
+      .field("ScreenName", SchemaBuilder.string().doc("Returns the screen name of the user").optional().build())
+      .field("Location", SchemaBuilder.string().doc("Returns the location of the user").optional().build())
+      .field("Description", SchemaBuilder.string().doc("Returns the description of the user").optional().build())
+      .field("ContributorsEnabled", SchemaBuilder.bool().doc("Tests if the user is enabling contributors").optional().build())
+      .field("ProfileImageURL", SchemaBuilder.string().doc("Returns the profile image url of the user").optional().build())
+      .field("BiggerProfileImageURL", SchemaBuilder.string().optional().build())
+      .field("MiniProfileImageURL", SchemaBuilder.string().optional().build())
+      .field("OriginalProfileImageURL", SchemaBuilder.string().optional().build())
+      .field("ProfileImageURLHttps", SchemaBuilder.string().optional().build())
+      .field("BiggerProfileImageURLHttps", SchemaBuilder.string().optional().build())
+      .field("MiniProfileImageURLHttps", SchemaBuilder.string().optional().build())
+      .field("OriginalProfileImageURLHttps", SchemaBuilder.string().optional().build())
+      .field("DefaultProfileImage", SchemaBuilder.bool().doc("Tests if the user has not uploaded their own avatar").optional().build())
+      .field("URL", SchemaBuilder.string().doc("Returns the url of the user").optional().build())
+      .field("Protected", SchemaBuilder.bool().doc("Test if the user status is protected").optional().build())
+      .field("FollowersCount", SchemaBuilder.int32().doc("Returns the number of followers").optional().build())
+      .field("ProfileBackgroundColor", SchemaBuilder.string().optional().build())
+      .field("ProfileTextColor", SchemaBuilder.string().optional().build())
+      .field("ProfileLinkColor", SchemaBuilder.string().optional().build())
+      .field("ProfileSidebarFillColor", SchemaBuilder.string().optional().build())
+      .field("ProfileSidebarBorderColor", SchemaBuilder.string().optional().build())
+      .field("ProfileUseBackgroundImage", SchemaBuilder.bool().optional().build())
+      .field("DefaultProfile", SchemaBuilder.bool().doc("Tests if the user has not altered the theme or background").optional().build())
+      .field("ShowAllInlineMedia", SchemaBuilder.bool().optional().build())
+      .field("FriendsCount", SchemaBuilder.int32().doc("Returns the number of users the user follows (AKA \"followings\")").optional().build())
+      .field("CreatedAt", Timestamp.builder().optional().build())
+      .field("FavouritesCount", SchemaBuilder.int32().optional().build())
+      .field("UtcOffset", SchemaBuilder.int32().optional().build())
+      .field("TimeZone", SchemaBuilder.string().optional().build())
+      .field("ProfileBackgroundImageURL", SchemaBuilder.string().optional().build())
+      .field("ProfileBackgroundImageUrlHttps", SchemaBuilder.string().optional().build())
+      .field("ProfileBannerURL", SchemaBuilder.string().optional().build())
+      .field("ProfileBannerRetinaURL", SchemaBuilder.string().optional().build())
+      .field("ProfileBannerIPadURL", SchemaBuilder.string().optional().build())
+      .field("ProfileBannerIPadRetinaURL", SchemaBuilder.string().optional().build())
+      .field("ProfileBannerMobileURL", SchemaBuilder.string().optional().build())
+      .field("ProfileBannerMobileRetinaURL", SchemaBuilder.string().optional().build())
+      .field("ProfileBackgroundTiled", SchemaBuilder.bool().optional().build())
+      .field("Lang", SchemaBuilder.string().doc("Returns the preferred language of the user").optional().build())
+      .field("StatusesCount", SchemaBuilder.int32().optional().build())
+      .field("GeoEnabled", SchemaBuilder.bool().optional().build())
+      .field("Verified", SchemaBuilder.bool().optional().build())
+      .field("Translator", SchemaBuilder.bool().optional().build())
+      .field("ListedCount", SchemaBuilder.int32().doc("Returns the number of public lists the user is listed on, or -1 if the count is unavailable.").optional().build())
+      .field("FollowRequestSent", SchemaBuilder.bool().doc("Returns true if the authenticating user has requested to follow this user, otherwise false.").optional().build())
+      .field("WithheldInCountries", SchemaBuilder.array(Schema.STRING_SCHEMA).doc("Returns the list of country codes where the user is withheld").build())
+      .build();
 
   static {
     PLACE_SCHEMA = SchemaBuilder.struct()
@@ -115,8 +120,8 @@ public class StatusConverter {
         .name("com.github.jcustenborder.kafka.connect.twitter.GeoLocation")
         .optional()
         .doc("Returns The location that this tweet refers to if available.")
-        .field("Latitude", Schema.FLOAT64_SCHEMA)
-        .field("Longitude", Schema.FLOAT64_SCHEMA)
+        .field("Latitude", SchemaBuilder.float64().doc("returns the latitude of the geo location").build())
+        .field("Longitude", SchemaBuilder.float64().doc("returns the longitude of the geo location").build())
         .build();
   }
 
@@ -127,6 +132,95 @@ public class StatusConverter {
         .field("Id", Schema.OPTIONAL_INT64_SCHEMA)
         .build();
   }
+
+  public static final Schema SCHEMA_MEDIA_ENTITY_VARIANT = SchemaBuilder.struct()
+      .name("com.github.jcustenborder.kafka.connect.twitter.ExtendedMediaEntity.Variant")
+      .doc("")
+      .field("Url", SchemaBuilder.string().optional().doc("").build())
+      .field("Bitrate", SchemaBuilder.int32().optional().doc("").build())
+      .field("ContentType", SchemaBuilder.string().optional().doc("").build())
+      .build();
+  public static final Schema SCHEMA_MEDIA_ENTITY_SIZE = SchemaBuilder.struct()
+      .name("com.github.jcustenborder.kafka.connect.twitter.MediaEntity.Size")
+      .doc("")
+      .field("Resize", SchemaBuilder.int32().optional().doc("").build())
+      .field("Width", SchemaBuilder.int32().optional().doc("").build())
+      .field("Height", SchemaBuilder.int32().optional().doc("").build())
+      .build();
+  public static final Schema SCHEMA_EXTENDED_MEDIA_ENTITY = SchemaBuilder.struct()
+      .name("com.github.jcustenborder.kafka.connect.twitter.ExtendedMediaEntity")
+      .doc("")
+      .field("VideoAspectRatioWidth", SchemaBuilder.int32().optional().doc("").build())
+      .field("VideoAspectRatioHeight", SchemaBuilder.int32().optional().doc("").build())
+      .field("VideoDurationMillis", SchemaBuilder.int64().optional().doc("").build())
+      .field("VideoVariants", SchemaBuilder.array(SCHEMA_MEDIA_ENTITY_VARIANT).optional().doc("").build())
+      .field("ExtAltText", SchemaBuilder.string().optional().doc("").build())
+      .field("Id", SchemaBuilder.int64().optional().doc("Returns the id of the media.").build())
+      .field("Type", SchemaBuilder.string().optional().doc("Returns the media type photo, video, animated_gif.").build())
+      .field("MediaURL", SchemaBuilder.string().optional().doc("Returns the media URL.").build())
+      .field("Sizes", SchemaBuilder.map(Schema.INT32_SCHEMA, SCHEMA_MEDIA_ENTITY_SIZE).doc("Returns size variations of the media.").build())
+      .field("MediaURLHttps", SchemaBuilder.string().optional().doc("Returns the media secure URL.").build())
+      .field("URL", SchemaBuilder.string().optional().doc("Returns the URL mentioned in the tweet.").build())
+      .field("Text", SchemaBuilder.string().optional().doc("Returns the URL mentioned in the tweet.").build())
+      .field("ExpandedURL", SchemaBuilder.string().optional().doc("Returns the expanded URL if mentioned URL is shorten.").build())
+      .field("Start", SchemaBuilder.int32().optional().doc("Returns the index of the start character of the URL mentioned in the tweet.").build())
+      .field("End", SchemaBuilder.int32().optional().doc("Returns the index of the end character of the URL mentioned in the tweet.").build())
+      .field("DisplayURL", SchemaBuilder.string().optional().doc("Returns the display URL if mentioned URL is shorten.").build())
+      .build();
+  public static final Schema SCHEMA_HASHTAG_ENTITY = SchemaBuilder.struct()
+      .name("com.github.jcustenborder.kafka.connect.twitter.HashtagEntity")
+      .doc("")
+      .field("Text", SchemaBuilder.string().optional().doc("Returns the text of the hashtag without #.").build())
+      .field("Start", SchemaBuilder.int32().optional().doc("Returns the index of the start character of the hashtag.").build())
+      .field("End", SchemaBuilder.int32().optional().doc("Returns the index of the end character of the hashtag.").build())
+      .build();
+  public static final Schema SCHEMA_MEDIA_ENTITY = SchemaBuilder.struct()
+      .name("com.github.jcustenborder.kafka.connect.twitter.MediaEntity")
+      .doc("")
+      .field("Id", SchemaBuilder.int64().optional().doc("Returns the id of the media.").build())
+      .field("Type", SchemaBuilder.string().optional().doc("Returns the media type photo, video, animated_gif.").build())
+      .field("MediaURL", SchemaBuilder.string().optional().doc("Returns the media URL.").build())
+      .field("Sizes", SchemaBuilder.map(Schema.INT32_SCHEMA, SCHEMA_MEDIA_ENTITY_SIZE))
+      .field("MediaURLHttps", SchemaBuilder.string().optional().doc("Returns the media secure URL.").build())
+      .field("VideoAspectRatioWidth", SchemaBuilder.int32().optional().doc("").build())
+      .field("VideoAspectRatioHeight", SchemaBuilder.int32().optional().doc("").build())
+      .field("VideoDurationMillis", SchemaBuilder.int64().optional().doc("").build())
+      .field("VideoVariants", SchemaBuilder.array(SCHEMA_MEDIA_ENTITY_VARIANT).optional().doc("Returns size variations of the media.").build())
+      .field("ExtAltText", SchemaBuilder.string().optional().doc("").build())
+      .field("URL", SchemaBuilder.string().optional().doc("Returns the URL mentioned in the tweet.").build())
+      .field("Text", SchemaBuilder.string().optional().doc("Returns the URL mentioned in the tweet.").build())
+      .field("ExpandedURL", SchemaBuilder.string().optional().doc("Returns the expanded URL if mentioned URL is shorten.").build())
+      .field("Start", SchemaBuilder.int32().optional().doc("Returns the index of the start character of the URL mentioned in the tweet.").build())
+      .field("End", SchemaBuilder.int32().optional().doc("Returns the index of the end character of the URL mentioned in the tweet.").build())
+      .field("DisplayURL", SchemaBuilder.string().optional().doc("Returns the display URL if mentioned URL is shorten.").build())
+      .build();
+  public static final Schema SCHEMA_SYMBOL_ENTITY = SchemaBuilder.struct()
+      .name("com.github.jcustenborder.kafka.connect.twitter.SymbolEntity")
+      .doc("")
+      .field("Start", SchemaBuilder.int32().optional().doc("Returns the index of the start character of the symbol.").build())
+      .field("End", SchemaBuilder.int32().optional().doc("Returns the index of the end character of the symbol.").build())
+      .field("Text", SchemaBuilder.string().optional().doc("Returns the text of the entity").build())
+      .build();
+  public static final Schema SCHEMA_URL_ENTITY = SchemaBuilder.struct()
+      .name("com.github.jcustenborder.kafka.connect.twitter.URLEntity")
+      .doc("")
+      .field("URL", SchemaBuilder.string().optional().doc("Returns the URL mentioned in the tweet.").build())
+      .field("Text", SchemaBuilder.string().optional().doc("Returns the URL mentioned in the tweet.").build())
+      .field("ExpandedURL", SchemaBuilder.string().optional().doc("Returns the expanded URL if mentioned URL is shorten.").build())
+      .field("Start", SchemaBuilder.int32().optional().doc("Returns the index of the start character of the URL mentioned in the tweet.").build())
+      .field("End", SchemaBuilder.int32().optional().doc("Returns the index of the end character of the URL mentioned in the tweet.").build())
+      .field("DisplayURL", SchemaBuilder.string().optional().doc("Returns the display URL if mentioned URL is shorten.").build())
+      .build();
+  public static final Schema SCHEMA_USER_MENTION_ENTITY = SchemaBuilder.struct()
+      .name("com.github.jcustenborder.kafka.connect.twitter.UserMentionEntity")
+      .doc("")
+      .field("Name", SchemaBuilder.string().optional().doc("Returns the name mentioned in the status.").build())
+      .field("Id", SchemaBuilder.int64().optional().doc("Returns the user id mentioned in the status.").build())
+      .field("Text", SchemaBuilder.string().optional().doc("Returns the screen name mentioned in the status.").build())
+      .field("ScreenName", SchemaBuilder.string().optional().doc("Returns the screen name mentioned in the status.").build())
+      .field("Start", SchemaBuilder.int32().optional().doc("Returns the index of the start character of the user mention.").build())
+      .field("End", SchemaBuilder.int32().optional().doc("Returns the index of the end character of the user mention.").build())
+      .build();
 
   static {
     STATUS_SCHEMA = SchemaBuilder.struct()
@@ -154,6 +248,12 @@ public class StatusConverter {
         .field("PossiblySensitive", SchemaBuilder.bool().optional().build())
         .field("Lang", SchemaBuilder.string().doc("Returns the lang of the status text if available.").optional().build())
         .field("WithheldInCountries", SchemaBuilder.array(Schema.STRING_SCHEMA).doc("Returns the list of country codes where the tweet is withheld").build())
+        .field("HashtagEntities", SchemaBuilder.array(SCHEMA_HASHTAG_ENTITY).doc("Returns an array if hashtag mentioned in the tweet.").optional().build())
+        .field("UserMentionEntities", SchemaBuilder.array(SCHEMA_USER_MENTION_ENTITY).doc("Returns an array of user mentions in the tweet.").optional().build())
+        .field("MediaEntities", SchemaBuilder.array(SCHEMA_MEDIA_ENTITY).doc("Returns an array of MediaEntities if medias are available in the tweet.").optional().build())
+        .field("SymbolEntities", SchemaBuilder.array(SCHEMA_SYMBOL_ENTITY).doc("Returns an array of SymbolEntities if medias are available in the tweet.").optional().build())
+        .field("URLEntities", SchemaBuilder.array(SCHEMA_URL_ENTITY).doc("Returns an array if URLEntity mentioned in the tweet.").optional().build())
+
         .build();
   }
 
@@ -172,6 +272,20 @@ public class StatusConverter {
         .doc("Key for a message that is received when a status is deleted from Twitter.")
         .field("StatusId", Schema.INT64_SCHEMA)
         .build();
+  }
+
+  static Map<Integer, Struct> convertSizes(Map<Integer, MediaEntity.Size> items) {
+    Map<Integer, Struct> results = new LinkedHashMap<>();
+
+    if (items == null) {
+      return results;
+    }
+
+    for (Map.Entry<Integer, MediaEntity.Size> kvp : items.entrySet()) {
+      results.put(kvp.getKey(), convertMediaEntitySize(kvp.getValue()));
+    }
+
+    return results;
   }
 
   public static void convert(User user, Struct struct) {
@@ -256,6 +370,199 @@ public class StatusConverter {
         .put("Longitude", geoLocation.getLongitude());
   }
 
+
+  static Struct convertMediaEntityVariant(MediaEntity.Variant variant) {
+    return new Struct(SCHEMA_MEDIA_ENTITY_VARIANT)
+        .put("Url", variant.getUrl())
+        .put("Bitrate", variant.getBitrate())
+        .put("ContentType", variant.getContentType());
+  }
+
+  public static List<Struct> convert(MediaEntity.Variant[] items) {
+    List<Struct> result = new ArrayList<>();
+    if (null == items) {
+      return result;
+    }
+    for (MediaEntity.Variant item : items) {
+      Struct struct = convertMediaEntityVariant(item);
+      result.add(struct);
+    }
+    return result;
+  }
+
+
+  static Struct convertMediaEntitySize(MediaEntity.Size size) {
+    return new Struct(SCHEMA_MEDIA_ENTITY_SIZE)
+        .put("Resize", size.getResize())
+        .put("Width", size.getWidth())
+        .put("Height", size.getHeight());
+  }
+
+  public static List<Struct> convert(MediaEntity.Size[] items) {
+    List<Struct> result = new ArrayList<>();
+    if (null == items) {
+      return result;
+    }
+    for (MediaEntity.Size item : items) {
+      Struct struct = convertMediaEntitySize(item);
+      result.add(struct);
+    }
+    return result;
+  }
+
+
+  static Struct convertExtendedMediaEntity(ExtendedMediaEntity extendedMediaEntity) {
+    return new Struct(SCHEMA_EXTENDED_MEDIA_ENTITY)
+        .put("VideoAspectRatioWidth", extendedMediaEntity.getVideoAspectRatioWidth())
+        .put("VideoAspectRatioHeight", extendedMediaEntity.getVideoAspectRatioHeight())
+        .put("VideoDurationMillis", extendedMediaEntity.getVideoDurationMillis())
+        .put("VideoVariants", extendedMediaEntity.getVideoVariants())
+        .put("ExtAltText", extendedMediaEntity.getExtAltText())
+        .put("Id", extendedMediaEntity.getId())
+        .put("Type", extendedMediaEntity.getType())
+        .put("MediaURL", extendedMediaEntity.getMediaURL())
+        .put("Sizes", extendedMediaEntity.getSizes())
+        .put("MediaURLHttps", extendedMediaEntity.getMediaURLHttps())
+        .put("URL", extendedMediaEntity.getURL())
+        .put("Text", extendedMediaEntity.getText())
+        .put("ExpandedURL", extendedMediaEntity.getExpandedURL())
+        .put("Start", extendedMediaEntity.getStart())
+        .put("End", extendedMediaEntity.getEnd())
+        .put("DisplayURL", extendedMediaEntity.getDisplayURL());
+  }
+
+  public static List<Struct> convert(ExtendedMediaEntity[] items) {
+    List<Struct> result = new ArrayList<>();
+    if (null == items) {
+      return result;
+    }
+    for (ExtendedMediaEntity item : items) {
+      Struct struct = convertExtendedMediaEntity(item);
+      result.add(struct);
+    }
+    return result;
+  }
+
+
+  static Struct convertHashtagEntity(HashtagEntity hashtagEntity) {
+    return new Struct(SCHEMA_HASHTAG_ENTITY)
+        .put("Text", hashtagEntity.getText())
+        .put("Start", hashtagEntity.getStart())
+        .put("End", hashtagEntity.getEnd());
+  }
+
+  public static List<Struct> convert(HashtagEntity[] items) {
+    List<Struct> result = new ArrayList<>();
+    if (null == items) {
+      return result;
+    }
+    for (HashtagEntity item : items) {
+      Struct struct = convertHashtagEntity(item);
+      result.add(struct);
+    }
+    return result;
+  }
+
+
+  static Struct convertMediaEntity(MediaEntity mediaEntity) {
+    return new Struct(SCHEMA_MEDIA_ENTITY)
+        .put("Id", mediaEntity.getId())
+        .put("Type", mediaEntity.getType())
+        .put("MediaURL", mediaEntity.getMediaURL())
+        .put("Sizes", convertSizes(mediaEntity.getSizes()))
+        .put("MediaURLHttps", mediaEntity.getMediaURLHttps())
+        .put("VideoAspectRatioWidth", mediaEntity.getVideoAspectRatioWidth())
+        .put("VideoAspectRatioHeight", mediaEntity.getVideoAspectRatioHeight())
+        .put("VideoDurationMillis", mediaEntity.getVideoDurationMillis())
+        .put("VideoVariants", convert(mediaEntity.getVideoVariants()))
+        .put("ExtAltText", mediaEntity.getExtAltText())
+        .put("URL", mediaEntity.getURL())
+        .put("Text", mediaEntity.getText())
+        .put("ExpandedURL", mediaEntity.getExpandedURL())
+        .put("Start", mediaEntity.getStart())
+        .put("End", mediaEntity.getEnd())
+        .put("DisplayURL", mediaEntity.getDisplayURL());
+  }
+
+  public static List<Struct> convert(MediaEntity[] items) {
+    List<Struct> result = new ArrayList<>();
+    if (null == items) {
+      return result;
+    }
+    for (MediaEntity item : items) {
+      Struct struct = convertMediaEntity(item);
+      result.add(struct);
+    }
+    return result;
+  }
+
+
+  static Struct convertSymbolEntity(SymbolEntity symbolEntity) {
+    return new Struct(SCHEMA_SYMBOL_ENTITY)
+        .put("Start", symbolEntity.getStart())
+        .put("End", symbolEntity.getEnd())
+        .put("Text", symbolEntity.getText());
+  }
+
+  public static List<Struct> convert(SymbolEntity[] items) {
+    List<Struct> result = new ArrayList<>();
+    if (null == items) {
+      return result;
+    }
+    for (SymbolEntity item : items) {
+      Struct struct = convertSymbolEntity(item);
+      result.add(struct);
+    }
+    return result;
+  }
+
+
+  static Struct convertURLEntity(URLEntity uRLEntity) {
+    return new Struct(SCHEMA_URL_ENTITY)
+        .put("URL", uRLEntity.getURL())
+        .put("Text", uRLEntity.getText())
+        .put("ExpandedURL", uRLEntity.getExpandedURL())
+        .put("Start", uRLEntity.getStart())
+        .put("End", uRLEntity.getEnd())
+        .put("DisplayURL", uRLEntity.getDisplayURL());
+  }
+
+  public static List<Struct> convert(URLEntity[] items) {
+    List<Struct> result = new ArrayList<>();
+    if (null == items) {
+      return result;
+    }
+    for (URLEntity item : items) {
+      Struct struct = convertURLEntity(item);
+      result.add(struct);
+    }
+    return result;
+  }
+
+
+  static Struct convertUserMentionEntity(UserMentionEntity userMentionEntity) {
+    return new Struct(SCHEMA_USER_MENTION_ENTITY)
+        .put("Name", userMentionEntity.getName())
+        .put("Id", userMentionEntity.getId())
+        .put("Text", userMentionEntity.getText())
+        .put("ScreenName", userMentionEntity.getScreenName())
+        .put("Start", userMentionEntity.getStart())
+        .put("End", userMentionEntity.getEnd());
+  }
+
+  public static List<Struct> convert(UserMentionEntity[] items) {
+    List<Struct> result = new ArrayList<>();
+    if (null == items) {
+      return result;
+    }
+    for (UserMentionEntity item : items) {
+      Struct struct = convertUserMentionEntity(item);
+      result.add(struct);
+    }
+    return result;
+  }
+
+
   public static void convertKey(Status status, Struct struct) {
     struct.put("Id", status.getId());
   }
@@ -306,7 +613,6 @@ public class StatusConverter {
       geoLocationStruct = null;
     }
     struct.put("GeoLocation", geoLocationStruct);
-
     List<Long> contributers = new ArrayList<>();
 
     if (null != status.getContributors()) {
@@ -323,6 +629,12 @@ public class StatusConverter {
       }
     }
     struct.put("WithheldInCountries", withheldInCountries);
+
+    struct.put("HashtagEntities", convert(status.getHashtagEntities()));
+    struct.put("UserMentionEntities", convert(status.getUserMentionEntities()));
+    struct.put("MediaEntities", convert(status.getMediaEntities()));
+    struct.put("SymbolEntities", convert(status.getSymbolEntities()));
+    struct.put("URLEntities", convert(status.getURLEntities()));
   }
 
   public static void convert(StatusDeletionNotice statusDeletionNotice, Struct struct) {
