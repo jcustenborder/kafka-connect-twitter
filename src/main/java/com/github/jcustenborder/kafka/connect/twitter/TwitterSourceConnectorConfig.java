@@ -38,8 +38,6 @@ public class TwitterSourceConnectorConfig extends AbstractConfig {
   public static final String FILTER_KEYWORDS_CONF = "filter.keywords";
   public static final String KAFKA_STATUS_TOPIC_CONF = "kafka.status.topic";
   public static final String KAFKA_STATUS_TOPIC_DOC = "Kafka topic to write the statuses to.";
-  public static final String KAFKA_DELETE_TOPIC_CONF = "kafka.delete.topic";
-  public static final String KAFKA_DELETE_TOPIC_DOC = "Kafka topic to write delete events to.";
   public static final String PROCESS_DELETES_CONF = "process.deletes";
   public static final String PROCESS_DELETES_DOC = "Should this connector process deletes.";
   private static final String TWITTER_DEBUG_DOC = "Flag to enable debug logging for the twitter api.";
@@ -49,12 +47,15 @@ public class TwitterSourceConnectorConfig extends AbstractConfig {
   private static final String TWITTER_OAUTH_ACCESS_TOKEN_SECRET_DOC = "OAuth access token secret";
   private static final String FILTER_KEYWORDS_DOC = "Twitter keywords to filter for.";
 
-  public TwitterSourceConnectorConfig(ConfigDef config, Map<String, String> parsedConfig) {
-    super(config, parsedConfig);
-  }
+  public final String topic;
+  public final boolean twitterDebug;
+  public final boolean processDeletes;
 
   public TwitterSourceConnectorConfig(Map<String, String> parsedConfig) {
-    this(conf(), parsedConfig);
+    super(conf(), parsedConfig);
+    this.topic = this.getString(KAFKA_STATUS_TOPIC_CONF);
+    this.twitterDebug = this.getBoolean(TWITTER_DEBUG_CONF);
+    this.processDeletes = this.getBoolean(PROCESS_DELETES_CONF);
   }
 
   public static ConfigDef conf() {
@@ -66,13 +67,9 @@ public class TwitterSourceConnectorConfig extends AbstractConfig {
         .define(TWITTER_OAUTH_ACCESS_TOKEN_SECRET_CONF, Type.PASSWORD, Importance.HIGH, TWITTER_OAUTH_ACCESS_TOKEN_SECRET_DOC)
         .define(FILTER_KEYWORDS_CONF, Type.LIST, Importance.HIGH, FILTER_KEYWORDS_DOC)
         .define(KAFKA_STATUS_TOPIC_CONF, Type.STRING, Importance.HIGH, KAFKA_STATUS_TOPIC_DOC)
-        .define(KAFKA_DELETE_TOPIC_CONF, Type.STRING, Importance.HIGH, KAFKA_DELETE_TOPIC_DOC)
         .define(PROCESS_DELETES_CONF, Type.BOOLEAN, Importance.HIGH, PROCESS_DELETES_DOC);
   }
 
-  public boolean twitterDebug() {
-    return this.getBoolean(TWITTER_DEBUG_CONF);
-  }
 
   public Configuration configuration() {
     Properties properties = new Properties();
@@ -88,17 +85,5 @@ public class TwitterSourceConnectorConfig extends AbstractConfig {
     List<String> keywordList = this.getList(FILTER_KEYWORDS_CONF);
     String[] keywords = Iterables.toArray(keywordList, String.class);
     return keywords;
-  }
-
-  public String kafkaStatusTopic() {
-    return this.getString(KAFKA_STATUS_TOPIC_CONF);
-  }
-
-  public String kafkaDeleteTopic() {
-    return this.getString(KAFKA_DELETE_TOPIC_CONF);
-  }
-
-  public boolean processDeletes() {
-    return this.getBoolean(PROCESS_DELETES_CONF);
   }
 }

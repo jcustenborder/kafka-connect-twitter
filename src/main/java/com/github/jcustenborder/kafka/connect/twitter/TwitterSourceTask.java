@@ -116,7 +116,7 @@ public class TwitterSourceTask extends SourceTask implements StatusListener {
       Map<String, ?> sourcePartition = ImmutableMap.of();
       Map<String, ?> sourceOffset = ImmutableMap.of();
 
-      SourceRecord record = new SourceRecord(sourcePartition, sourceOffset, this.config.kafkaStatusTopic(), StatusConverter.STATUS_SCHEMA_KEY, keyStruct, StatusConverter.STATUS_SCHEMA, valueStruct);
+      SourceRecord record = new SourceRecord(sourcePartition, sourceOffset, this.config.topic, StatusConverter.STATUS_SCHEMA_KEY, keyStruct, StatusConverter.STATUS_SCHEMA, valueStruct);
       this.messageQueue.add(record);
     } catch (Exception ex) {
       if (log.isErrorEnabled()) {
@@ -127,21 +127,19 @@ public class TwitterSourceTask extends SourceTask implements StatusListener {
 
   @Override
   public void onDeletionNotice(StatusDeletionNotice statusDeletionNotice) {
-    if (!this.config.processDeletes()) {
+    if (!this.config.processDeletes) {
       return;
     }
 
     try {
       Struct keyStruct = new Struct(StatusConverter.SCHEMA_STATUS_DELETION_NOTICE_KEY);
-      Struct valueStruct = new Struct(StatusConverter.SCHEMA_STATUS_DELETION_NOTICE);
 
       StatusConverter.convertKey(statusDeletionNotice, keyStruct);
-      StatusConverter.convert(statusDeletionNotice, valueStruct);
 
       Map<String, ?> sourcePartition = ImmutableMap.of();
       Map<String, ?> sourceOffset = ImmutableMap.of();
 
-      SourceRecord record = new SourceRecord(sourcePartition, sourceOffset, this.config.kafkaDeleteTopic(), StatusConverter.SCHEMA_STATUS_DELETION_NOTICE_KEY, keyStruct, StatusConverter.SCHEMA_STATUS_DELETION_NOTICE, valueStruct);
+      SourceRecord record = new SourceRecord(sourcePartition, sourceOffset, this.config.topic, StatusConverter.SCHEMA_STATUS_DELETION_NOTICE_KEY, keyStruct, null, null);
       this.messageQueue.add(record);
     } catch (Exception ex) {
       if (log.isErrorEnabled()) {

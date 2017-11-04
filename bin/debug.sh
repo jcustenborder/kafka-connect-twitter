@@ -15,12 +15,11 @@
 # limitations under the License.
 #
 
-: ${SUSPEND:='n'}
-
+: ${DEBUG_SUSPEND_FLAG:='n'}
+export KAFKA_DEBUG='y'
+export JAVA_DEBUG_PORT='5006'
 set -e
 
 mvn clean package
-export KAFKA_JMX_OPTS="-Xdebug -agentlib:jdwp=transport=dt_socket,server=y,suspend=${SUSPEND},address=5006"
-export CLASSPATH="$(find target/kafka-connect-target/usr/share/java -type f -name '*.jar' | tr '\n' ':')"
 
 connect-standalone config/connect-avro-docker.properties /Users/jeremy/source/opensource/kafka-connect/kafka-connect-twitter/config/TwitterSourceConnector.properties
