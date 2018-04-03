@@ -13,6 +13,7 @@
     <name>kafka-connect-twitter</name>
     <url>https://github.com/jcustenborder/kafka-connect-twitter</url>
     <inceptionYear>2016</inceptionYear>
+    <description>Kafka Connect plugin for streaming data from Twitter to Kafka.</description>
     <licenses>
         <license>
             <name>Apache License 2.0</name>
@@ -54,4 +55,41 @@
             <version>${twitter4j.version}</version>
         </dependency>
     </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>io.confluent</groupId>
+                <artifactId>kafka-connect-maven-plugin</artifactId>
+                <version>0.9.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>kafka-connect</goal>
+                        </goals>
+                        <configuration>
+                            <ownerUsername>jcustenborder</ownerUsername>
+                            <confluentControlCenterIntegration>true
+                            </confluentControlCenterIntegration>
+                            <documentationUrl>
+                                https://jcustenborder.github.io/kafka-connect-documentation/
+                            </documentationUrl>
+                            <ownerName>Jeremy Custenborder</ownerName>
+                            <dockerNamespace>jcustenborder</dockerNamespace>
+                            <dockerName>kafka-connect-docker</dockerName>
+                            <pluginTypes>
+                                <pluginType>source</pluginType>
+                            </pluginTypes>
+                            <tags>
+                                <tag>Twitter</tag>
+                            </tags>
+                            <title>Kafka Connect Twitter</title>
+                            <supportUrl>${pom.issueManagement.url}</supportUrl>
+                            <supportSummary>Support provided through community involvement.
+                            </supportSummary>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
