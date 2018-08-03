@@ -70,7 +70,7 @@
                         <tag>Twitter</tag>
                         <tag>Social</tag>
                     </tags>
-                    <title>Kafka Connect Memcached</title>
+                    <title>Kafka Connect Twitter</title>
                     <supportUrl>${pom.issueManagement.url}</supportUrl>
                     <supportSummary>Support provided through community involvement.</supportSummary>
                 </configuration>
