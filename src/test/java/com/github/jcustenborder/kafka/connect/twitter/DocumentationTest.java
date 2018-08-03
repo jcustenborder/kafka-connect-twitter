@@ -26,9 +26,12 @@ public class DocumentationTest extends BaseDocumentationTest {
 
   @Override
   protected List<Schema> schemas() {
-    return Arrays.stream(StatusConverter.class.getFields())
-        .filter(field -> Modifier.isFinal(field.getModifiers()) && Modifier.isStatic(field.getModifiers()) && Schema.class.equals(field.getType()))
-        .map(field -> schema(field))
+    List<Schema> schemas =  Arrays.stream(StatusConverter.class.getFields())
+        .filter(field -> Modifier.isFinal(field.getModifiers()))
+        .filter(field -> Modifier.isStatic(field.getModifiers()))
+        .filter(field -> Schema.class.equals(field.getType()))
+        .map(DocumentationTest::schema)
         .collect(Collectors.toList());
+    return schemas;
   }
 }

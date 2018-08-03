@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,8 +17,10 @@ package com.github.jcustenborder.kafka.connect.twitter;
 
 import com.github.jcustenborder.kafka.connect.utils.VersionUtil;
 import com.github.jcustenborder.kafka.connect.utils.config.Description;
+import com.github.jcustenborder.kafka.connect.utils.config.Title;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Iterables;
 import org.apache.kafka.common.config.ConfigDef;
 import org.apache.kafka.connect.connector.Task;
 import org.apache.kafka.connect.source.SourceConnector;
@@ -30,6 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Title("Twitter")
 @Description("This Twitter Source connector is used to pull data from Twitter in realtime.")
 public class TwitterSourceConnector extends SourceConnector {
   private static Logger log = LoggerFactory.getLogger(TwitterSourceConnector.class);
@@ -55,31 +58,11 @@ public class TwitterSourceConnector extends SourceConnector {
   @Override
   public List<Map<String, String>> taskConfigs(int maxTasks) {
     Preconditions.checkState(maxTasks > 0, "MaxTasks must be greater than 0");
+    final int tasks = Math.min(maxTasks, this.config.filterKeywords.size());
+    final List<Map<String, String>> taskConfigs = new ArrayList<>();
 
-    String[] keywords = this.config.filterKeywords();
-
-    final int tasks = Math.min(maxTasks, keywords.length);
-
-    List<List<String>> taskGroups = new ArrayList<>();
-
-    for (int i = 0; i < tasks; i++) {
-      taskGroups.add(new ArrayList<String>());
-    }
-
-    int index = 0;
-
-    for (String keyword : this.config.filterKeywords()) {
-      int taskGroupIndex = index % taskGroups.size();
-      List<String> taskList = taskGroups.get(taskGroupIndex);
-      taskList.add(keyword);
-      index++;
-    }
-
-    List<Map<String, String>> taskConfigs = new ArrayList<>();
-
-    for (List<String> k : taskGroups) {
-      Map<String, String> taskSettings = new HashMap<>();
-      taskSettings.putAll(this.settings);
+    for (List<String> k : Iterables.partition(this.config.filterKeywords, tasks)) {
+      Map<String, String> taskSettings = new HashMap<>(this.settings);
 
       if (!k.isEmpty()) {
         taskSettings.put(TwitterSourceConnectorConfig.FILTER_KEYWORDS_CONF, Joiner.on(',').join(k));
