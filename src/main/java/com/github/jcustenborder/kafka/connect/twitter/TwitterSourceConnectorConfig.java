@@ -15,7 +15,7 @@
  */
 package com.github.jcustenborder.kafka.connect.twitter;
 
-import com.google.common.collect.Iterables;
+import com.github.jcustenborder.kafka.connect.utils.config.ConfigUtils;
 import org.apache.kafka.common.config.AbstractConfig;
 import org.apache.kafka.common.config.ConfigDef;
 import org.apache.kafka.common.config.ConfigDef.Importance;
@@ -23,9 +23,9 @@ import org.apache.kafka.common.config.ConfigDef.Type;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.PropertyConfiguration;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 
 public class TwitterSourceConnectorConfig extends AbstractConfig {
@@ -50,12 +50,14 @@ public class TwitterSourceConnectorConfig extends AbstractConfig {
   public final String topic;
   public final boolean twitterDebug;
   public final boolean processDeletes;
+  public final Set<String> filterKeywords;
 
   public TwitterSourceConnectorConfig(Map<String, String> parsedConfig) {
     super(conf(), parsedConfig);
     this.topic = this.getString(KAFKA_STATUS_TOPIC_CONF);
     this.twitterDebug = this.getBoolean(TWITTER_DEBUG_CONF);
     this.processDeletes = this.getBoolean(PROCESS_DELETES_CONF);
+    this.filterKeywords = ConfigUtils.getSet(this, FILTER_KEYWORDS_CONF);
   }
 
   public static ConfigDef conf() {
@@ -79,11 +81,5 @@ public class TwitterSourceConnectorConfig extends AbstractConfig {
      */
     properties.putAll(this.originalsWithPrefix("twitter."));
     return new PropertyConfiguration(properties);
-  }
-
-  public String[] filterKeywords() {
-    List<String> keywordList = this.getList(FILTER_KEYWORDS_CONF);
-    String[] keywords = Iterables.toArray(keywordList, String.class);
-    return keywords;
   }
 }
