@@ -16,7 +16,6 @@
 package com.github.jcustenborder.kafka.connect.twitter;
 
 import com.github.jcustenborder.kafka.connect.utils.config.ConfigUtils;
-import com.google.common.collect.Iterables;
 import org.apache.kafka.common.config.AbstractConfig;
 import org.apache.kafka.common.config.ConfigDef;
 import org.apache.kafka.common.config.ConfigDef.Importance;
@@ -24,7 +23,6 @@ import org.apache.kafka.common.config.ConfigDef.Type;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.PropertyConfiguration;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
