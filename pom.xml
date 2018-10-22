@@ -41,7 +41,7 @@
         <url>https://github.com/jcustenborder/kafka-connect-twitter/issues</url>
     </issueManagement>
     <properties>
-        <twitter4j.version>[4.0,)</twitter4j.version>
+        <twitter4j.version>4.0.6</twitter4j.version>
     </properties>
     <dependencies>
         <dependency>
