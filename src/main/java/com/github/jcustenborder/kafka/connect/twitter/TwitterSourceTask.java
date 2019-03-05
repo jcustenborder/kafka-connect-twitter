@@ -72,27 +72,18 @@ public class TwitterSourceTask extends SourceTask implements StatusListener {
   }
 
   @Override
-  public List<SourceRecord> poll() throws InterruptedException {
-    List<SourceRecord> records = new ArrayList<>(256);
-
-    while (records.isEmpty()) {
-      int size = messageQueue.size();
-
-      for (int i = 0; i < size; i++) {
-        SourceRecord record = this.messageQueue.poll();
-
-        if (null == record) {
-          break;
-        }
-
-        records.add(record);
+  public List<SourceRecord> poll() {
+    final int maxPollRecords = 256;
+    List<SourceRecord> records = new ArrayList<>(maxPollRecords);
+    SourceRecord record = messageQueue.poll();
+    while (record != null) {
+      records.add(record);
+      if (records.size() >= maxPollRecords) {
+        break;
       }
-
-      if (records.isEmpty()) {
-        Thread.sleep(100);
-      }
+      record = messageQueue.poll();
     }
-
+    log.debug("Took {} records from the message queue.", records.size());
     return records;
   }
 
