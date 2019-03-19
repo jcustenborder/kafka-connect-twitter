@@ -23,7 +23,6 @@ import org.apache.kafka.common.config.ConfigDef.Type;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.PropertyConfiguration;
 
-import java.util.Collections;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -73,7 +72,7 @@ public class TwitterSourceConnectorConfig extends AbstractConfig {
         .define(TWITTER_OAUTH_ACCESS_TOKEN_CONF, Type.PASSWORD, Importance.HIGH, TWITTER_OAUTH_ACCESS_TOKEN_DOC)
         .define(TWITTER_OAUTH_ACCESS_TOKEN_SECRET_CONF, Type.PASSWORD, Importance.HIGH, TWITTER_OAUTH_ACCESS_TOKEN_SECRET_DOC)
         .define(FILTER_KEYWORDS_CONF, Type.LIST, Importance.HIGH, FILTER_KEYWORDS_DOC)
-        .define(FILTER_USER_IDS_CONF, Type.LIST, Collections.EMPTY_SET, Importance.LOW, FILTER_USER_IDS_DOC)
+        .define(FILTER_USER_IDS_CONF, Type.LIST, "", Importance.LOW, FILTER_USER_IDS_DOC)
         .define(KAFKA_STATUS_TOPIC_CONF, Type.STRING, Importance.HIGH, KAFKA_STATUS_TOPIC_DOC)
         .define(PROCESS_DELETES_CONF, Type.BOOLEAN, Importance.HIGH, PROCESS_DELETES_DOC);
   }
