@@ -1,7 +1,6 @@
 package com.github.jcustenborder.kafka.connect.twitter;
 
 import com.github.jcustenborder.kafka.connect.utils.BaseDocumentationTest;
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.apache.kafka.connect.data.Schema;
 
 import java.lang.reflect.Field;
@@ -11,11 +10,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class DocumentationTest extends BaseDocumentationTest {
-  @Override
-  protected String[] packages() {
-    return new String[]{this.getClass().getPackage().getName()};
-  }
-
   static Schema schema(Field field) {
     try {
       return (Schema) field.get(null);
@@ -26,7 +20,7 @@ public class DocumentationTest extends BaseDocumentationTest {
 
   @Override
   protected List<Schema> schemas() {
-    List<Schema> schemas =  Arrays.stream(StatusConverter.class.getFields())
+    List<Schema> schemas = Arrays.stream(StatusConverter.class.getFields())
         .filter(field -> Modifier.isFinal(field.getModifiers()))
         .filter(field -> Modifier.isStatic(field.getModifiers()))
         .filter(field -> Schema.class.equals(field.getType()))
