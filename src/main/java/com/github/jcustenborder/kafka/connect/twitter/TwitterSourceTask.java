@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,6 +16,8 @@
 package com.github.jcustenborder.kafka.connect.twitter;
 
 import com.github.jcustenborder.kafka.connect.utils.VersionUtil;
+import com.github.jcustenborder.kafka.connect.utils.data.SourceRecordDeque;
+import com.github.jcustenborder.kafka.connect.utils.data.SourceRecordDequeBuilder;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap;
 import org.apache.kafka.connect.data.Struct;
@@ -31,14 +33,12 @@ import twitter4j.StatusListener;
 import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class TwitterSourceTask extends SourceTask implements StatusListener {
   static final Logger log = LoggerFactory.getLogger(TwitterSourceTask.class);
-  final ConcurrentLinkedDeque<SourceRecord> messageQueue = new ConcurrentLinkedDeque<>();
+  SourceRecordDeque messageQueue;
 
   TwitterStream twitterStream;
   TwitterSourceConnectorConfig config;
@@ -51,20 +51,25 @@ public class TwitterSourceTask extends SourceTask implements StatusListener {
   @Override
   public void start(Map<String, String> map) {
     this.config = new TwitterSourceConnectorConfig(map);
+    this.messageQueue = SourceRecordDequeBuilder.of()
+        .emptyWaitMs(this.config.queueEmptyMs)
+        .batchSize(this.config.queueBatchSize)
+        .build();
 
     TwitterStreamFactory twitterStreamFactory = new TwitterStreamFactory(this.config.configuration());
     this.twitterStream = twitterStreamFactory.getInstance();
-
-    String[] keywords = config.filterKeywords.toArray(new String[0]);
-    long[] userIds = config.filterUserIds.stream().mapToLong(Long::valueOf).toArray();
-
+    String[] keywords = this.config.filterKeywords.toArray(new String[0]);
     if (log.isInfoEnabled()) {
       log.info("Setting up filters. Keywords = {}", Joiner.on(", ").join(keywords));
     }
 
     FilterQuery filterQuery = new FilterQuery();
     filterQuery.track(keywords);
-    filterQuery.follow(userIds);
+    if (!this.config.filterUserIds.isEmpty()) {
+      long[] userIds = this.config.filterUserIds.stream().mapToLong(Long::valueOf).toArray();
+      log.info("Setting up filters. userIds = {}", Joiner.on(", ").join(this.config.filterUserIds));
+      filterQuery.follow(userIds);
+    }
 
     if (log.isInfoEnabled()) {
       log.info("Starting the twitter stream.");
@@ -75,27 +80,7 @@ public class TwitterSourceTask extends SourceTask implements StatusListener {
 
   @Override
   public List<SourceRecord> poll() throws InterruptedException {
-    List<SourceRecord> records = new ArrayList<>(256);
-
-    while (records.isEmpty()) {
-      int size = messageQueue.size();
-
-      for (int i = 0; i < size; i++) {
-        SourceRecord record = this.messageQueue.poll();
-
-        if (null == record) {
-          break;
-        }
-
-        records.add(record);
-      }
-
-      if (records.isEmpty()) {
-        Thread.sleep(100);
-      }
-    }
-
-    return records;
+    return this.messageQueue.getBatch();
   }
 
   @Override
