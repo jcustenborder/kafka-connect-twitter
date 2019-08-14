@@ -29,6 +29,7 @@ twitter.oauth.consumerKey=
 | Name                            | Description                                       | Type     | Default | Valid Values | Importance |
 |---------------------------------|---------------------------------------------------|----------|---------|--------------|------------|
 | filter.keywords                 | Twitter keywords to filter for.                   | list     |         |              | high       |
+| filter.userIds                  | Twitter user IDs to follow.                       | list     | ""      |              | low        |
 | kafka.delete.topic              | Kafka topic to write delete events to.            | string   |         |              | high       |
 | kafka.status.topic              | Kafka topic to write the statuses to.             | string   |         |              | high       |
 | process.deletes                 | Should this connector process deletes.            | boolean  |         |              | high       |
