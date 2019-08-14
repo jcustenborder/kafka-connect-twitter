@@ -36,6 +36,7 @@ public class TwitterSourceConnectorConfig extends AbstractConfig {
   public static final String TWITTER_OAUTH_ACCESS_TOKEN_CONF = "twitter.oauth.accessToken";
   public static final String TWITTER_OAUTH_ACCESS_TOKEN_SECRET_CONF = "twitter.oauth.accessTokenSecret";
   public static final String FILTER_KEYWORDS_CONF = "filter.keywords";
+  public static final String FILTER_USER_IDS_CONF = "filter.userIds";
   public static final String KAFKA_STATUS_TOPIC_CONF = "kafka.status.topic";
   public static final String KAFKA_STATUS_TOPIC_DOC = "Kafka topic to write the statuses to.";
   public static final String PROCESS_DELETES_CONF = "process.deletes";
@@ -46,11 +47,13 @@ public class TwitterSourceConnectorConfig extends AbstractConfig {
   private static final String TWITTER_OAUTH_ACCESS_TOKEN_DOC = "OAuth access token";
   private static final String TWITTER_OAUTH_ACCESS_TOKEN_SECRET_DOC = "OAuth access token secret";
   private static final String FILTER_KEYWORDS_DOC = "Twitter keywords to filter for.";
+  private static final String FILTER_USER_IDS_DOC = "Twitter user IDs to follow.";
 
   public final String topic;
   public final boolean twitterDebug;
   public final boolean processDeletes;
   public final Set<String> filterKeywords;
+  public final Set<String> filterUserIds;
 
   public TwitterSourceConnectorConfig(Map<String, String> parsedConfig) {
     super(conf(), parsedConfig);
@@ -58,6 +61,7 @@ public class TwitterSourceConnectorConfig extends AbstractConfig {
     this.twitterDebug = this.getBoolean(TWITTER_DEBUG_CONF);
     this.processDeletes = this.getBoolean(PROCESS_DELETES_CONF);
     this.filterKeywords = ConfigUtils.getSet(this, FILTER_KEYWORDS_CONF);
+    this.filterUserIds = ConfigUtils.getSet(this, FILTER_USER_IDS_CONF);
   }
 
   public static ConfigDef conf() {
@@ -68,6 +72,7 @@ public class TwitterSourceConnectorConfig extends AbstractConfig {
         .define(TWITTER_OAUTH_ACCESS_TOKEN_CONF, Type.PASSWORD, Importance.HIGH, TWITTER_OAUTH_ACCESS_TOKEN_DOC)
         .define(TWITTER_OAUTH_ACCESS_TOKEN_SECRET_CONF, Type.PASSWORD, Importance.HIGH, TWITTER_OAUTH_ACCESS_TOKEN_SECRET_DOC)
         .define(FILTER_KEYWORDS_CONF, Type.LIST, Importance.HIGH, FILTER_KEYWORDS_DOC)
+        .define(FILTER_USER_IDS_CONF, Type.LIST, "", Importance.LOW, FILTER_USER_IDS_DOC)
         .define(KAFKA_STATUS_TOPIC_CONF, Type.STRING, Importance.HIGH, KAFKA_STATUS_TOPIC_DOC)
         .define(PROCESS_DELETES_CONF, Type.BOOLEAN, Importance.HIGH, PROCESS_DELETES_DOC);
   }

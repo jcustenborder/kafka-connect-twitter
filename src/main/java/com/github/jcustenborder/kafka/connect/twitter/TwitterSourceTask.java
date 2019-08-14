@@ -55,7 +55,8 @@ public class TwitterSourceTask extends SourceTask implements StatusListener {
     TwitterStreamFactory twitterStreamFactory = new TwitterStreamFactory(this.config.configuration());
     this.twitterStream = twitterStreamFactory.getInstance();
 
-    String[] keywords = this.config.filterKeywords.toArray(new String[0]);
+    String[] keywords = config.filterKeywords.toArray(new String[0]);
+    long[] userIds = config.filterUserIds.stream().mapToLong(Long::valueOf).toArray();
 
     if (log.isInfoEnabled()) {
       log.info("Setting up filters. Keywords = {}", Joiner.on(", ").join(keywords));
@@ -63,6 +64,7 @@ public class TwitterSourceTask extends SourceTask implements StatusListener {
 
     FilterQuery filterQuery = new FilterQuery();
     filterQuery.track(keywords);
+    filterQuery.follow(userIds);
 
     if (log.isInfoEnabled()) {
       log.info("Starting the twitter stream.");
