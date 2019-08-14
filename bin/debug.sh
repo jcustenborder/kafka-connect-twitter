@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 
-: ${DEBUG_SUSPEND_FLAG:='n'}
+export DEBUG_SUSPEND_FLAG='y'
 export KAFKA_DEBUG='y'
 export JAVA_DEBUG_PORT='5006'
 set -e
