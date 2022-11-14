@@ -1,0 +1,138 @@
+{
+  "attachments": {
+    "media_keys": [
+      "3_1589631941275418625"
+    ]
+  },
+  "author_id": "44196397",
+  "context_annotations": [
+    {
+      "domain": {
+        "id": "46",
+        "name": "Business Taxonomy",
+        "description": "Categories within Brand Verticals that narrow down the scope of Brands"
+      },
+      "entity": {
+        "id": "1557696848252391426",
+        "name": "Financial Services Business",
+        "description": "Brands, companies, advertisers and every non-person handle with the profit intent related to Banks, Credit cards, Insurance, Investments, Stocks "
+      }
+    },
+    {
+      "domain": {
+        "id": "46",
+        "name": "Business Taxonomy",
+        "description": "Categories within Brand Verticals that narrow down the scope of Brands"
+      },
+      "entity": {
+        "id": "1557697333571112960",
+        "name": "Technology Business",
+        "description": "Brands, companies, advertisers and every non-person handle with the profit intent related to softwares, apps, communication equipments, hardwares"
+      }
+    },
+    {
+      "domain": {
+        "id": "10",
+        "name": "Person",
+        "description": "Named people in the world like Nelson Mandela"
+      },
+      "entity": {
+        "id": "808713037230157824",
+        "name": "Elon Musk",
+        "description": "Elon Musk"
+      }
+    },
+    {
+      "domain": {
+        "id": "65",
+        "name": "Interests and Hobbies Vertical",
+        "description": "Top level interests and hobbies groupings, like Food or Travel"
+      },
+      "entity": {
+        "id": "781974596148793345",
+        "name": "Business & finance"
+      }
+    },
+    {
+      "domain": {
+        "id": "66",
+        "name": "Interests and Hobbies Category",
+        "description": "A grouping of interests and hobbies entities, like Novelty Food or Destinations"
+      },
+      "entity": {
+        "id": "857878777191211008",
+        "name": "Leadership",
+        "description": "Leadership"
+      }
+    },
+    {
+      "domain": {
+        "id": "131",
+        "name": "Unified Twitter Taxonomy",
+        "description": "A taxonomy of user interests. "
+      },
+      "entity": {
+        "id": "808713037230157824",
+        "name": "Elon Musk",
+        "description": "Elon Musk"
+      }
+    },
+    {
+      "domain": {
+        "id": "131",
+        "name": "Unified Twitter Taxonomy",
+        "description": "A taxonomy of user interests. "
+      },
+      "entity": {
+        "id": "1091420346660470784",
+        "name": "Tech personalities",
+        "description": "Tech Professionals"
+      }
+    },
+    {
+      "domain": {
+        "id": "131",
+        "name": "Unified Twitter Taxonomy",
+        "description": "A taxonomy of user interests. "
+      },
+      "entity": {
+        "id": "1166406108623163392",
+        "name": "Business personalities"
+      }
+    }
+  ],
+  "edit_history_tweet_ids": [
+    "1589631946644414467"
+  ],
+  "source": "Twitter for iPhone",
+  "text": "How times have changed https://t.co/gCxUkZ4kZC",
+  "edit_controls": {
+    "edits_remaining": 5,
+    "is_edit_eligible": false,
+    "editable_until": "2022-11-07T15:22:44.000Z"
+  },
+  "possibly_sensitive": false,
+  "entities": {
+    "urls": [
+      {
+        "start": 23,
+        "end": 46,
+        "url": "https://t.co/gCxUkZ4kZC",
+        "expanded_url": "https://twitter.com/elonmusk/status/1589631946644414467/photo/1",
+        "display_url": "pic.twitter.com/gCxUkZ4kZC",
+        "media_key": "3_1589631941275418625"
+      }
+    ]
+  },
+  "conversation_id": "1589631946644414467",
+  "public_metrics": {
+    "retweet_count": 25047,
+    "reply_count": 16629,
+    "like_count": 327857,
+    "quote_count": 3645
+  },
+  "lang": "en",
+  "id": "1589631946644414467",
+  "created_at": "2022-11-07T14:52:44.000Z",
+  "reply_settings": "everyone"
+}

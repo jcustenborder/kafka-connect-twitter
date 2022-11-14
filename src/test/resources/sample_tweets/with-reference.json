@@ -1,0 +1,253 @@
+{
+  "lang": "en",
+  "text": "View all destination chargers → https://t.co/lqJMwQTuvH https://t.co/AL9eudo7nH",
+  "author_id": "13298072",
+  "conversation_id": "1589602301802844161",
+  "source": "Twitter for Mac",
+  "created_at": "2022-11-07T12:54:56.000Z",
+  "referenced_tweets": [
+    {
+      "type": "quoted",
+      "id": "1589226433875890176"
+    }
+  ],
+  "entities": {
+    "urls": [
+      {
+        "start": 32,
+        "end": 55,
+        "url": "https://t.co/lqJMwQTuvH",
+        "expanded_url": "https://tesla.com/findus",
+        "display_url": "tesla.com/findus",
+        "images": [
+          {
+            "url": "https://pbs.twimg.com/news_img/1589800450299113472/VSkuFPdr?format=jpg&name=orig",
+            "width": 1440,
+            "height": 540
+          },
+          {
+            "url": "https://pbs.twimg.com/news_img/1589800450299113472/VSkuFPdr?format=jpg&name=150x150",
+            "width": 150,
+            "height": 150
+          }
+        ],
+        "status": 200,
+        "title": "Find Us | Tesla",
+        "description": "Use the interactive Find Us map to locate Tesla charging stations, service centers, galleries and stores on the go.",
+        "unwound_url": "https://www.tesla.com/findus"
+      },
+      {
+        "start": 56,
+        "end": 79,
+        "url": "https://t.co/AL9eudo7nH",
+        "expanded_url": "https://twitter.com/BLKMDL3/status/1589226433875890176",
+        "display_url": "twitter.com/BLKMDL3/status…"
+      }
+    ]
+  },
+  "id": "1589602301802844161",
+  "edit_history_tweet_ids": [
+    "1589602301802844161"
+  ],
+  "possibly_sensitive": false,
+  "public_metrics": {
+    "retweet_count": 1530,
+    "reply_count": 1068,
+    "like_count": 17873,
+    "quote_count": 105
+  },
+  "context_annotations": [
+    {
+      "domain": {
+        "id": "46",
+        "name": "Business Taxonomy",
+        "description": "Categories within Brand Verticals that narrow down the scope of Brands"
+      },
+      "entity": {
+        "id": "1557696420500541440",
+        "name": "Automotive, Aircraft & Boat Business",
+        "description": "Brands, companies, advertisers and every non-person handle with the profit intent related to automobile, spacecraft, aircraft and boat manufacturing"
+      }
+    },
+    {
+      "domain": {
+        "id": "46",
+        "name": "Business Taxonomy",
+        "description": "Categories within Brand Verticals that narrow down the scope of Brands"
+      },
+      "entity": {
+        "id": "1557697439489880065",
+        "name": "Travel & Transportation Business",
+        "description": "Brands, companies, advertisers and every non-person handle with the profit intent related to travel as airlines, travel agencies, hotels"
+      }
+    },
+    {
+      "domain": {
+        "id": "47",
+        "name": "Brand",
+        "description": "Brands and Companies"
+      },
+      "entity": {
+        "id": "10044199219",
+        "name": "Tesla Motors"
+      }
+    },
+    {
+      "domain": {
+        "id": "131",
+        "name": "Unified Twitter Taxonomy",
+        "description": "A taxonomy of user interests. "
+      },
+      "entity": {
+        "id": "10044199219",
+        "name": "Tesla Motors"
+      }
+    },
+    {
+      "domain": {
+        "id": "131",
+        "name": "Unified Twitter Taxonomy",
+        "description": "A taxonomy of user interests. "
+      },
+      "entity": {
+        "id": "864154902926196737",
+        "name": "S&P 500",
+        "description": "S&P 500"
+      }
+    },
+    {
+      "domain": {
+        "id": "30",
+        "name": "Entities [Entity Service]",
+        "description": "Entity Service top level domain, every item that is in Entity Service should be in this domain"
+      },
+      "entity": {
+        "id": "781972125179518977",
+        "name": "Auto Manufacturer - Auto"
+      }
+    },
+    {
+      "domain": {
+        "id": "47",
+        "name": "Brand",
+        "description": "Brands and Companies"
+      },
+      "entity": {
+        "id": "10044199219",
+        "name": "Tesla Motors"
+      }
+    },
+    {
+      "domain": {
+        "id": "30",
+        "name": "Entities [Entity Service]",
+        "description": "Entity Service top level domain, every item that is in Entity Service should be in this domain"
+      },
+      "entity": {
+        "id": "839159814991167489",
+        "name": "Travel",
+        "description": "Travel"
+      }
+    },
+    {
+      "domain": {
+        "id": "65",
+        "name": "Interests and Hobbies Vertical",
+        "description": "Top level interests and hobbies groupings, like Food or Travel"
+      },
+      "entity": {
+        "id": "847528391163092993",
+        "name": "Automotive",
+        "description": "Car culture"
+      }
+    },
+    {
+      "domain": {
+        "id": "66",
+        "name": "Interests and Hobbies Category",
+        "description": "A grouping of interests and hobbies entities, like Novelty Food or Destinations"
+      },
+      "entity": {
+        "id": "847528576551337984",
+        "name": "Hybrid and electric vehicles",
+        "description": "Hybrid and electric vehicles"
+      }
+    },
+    {
+      "domain": {
+        "id": "66",
+        "name": "Interests and Hobbies Category",
+        "description": "A grouping of interests and hobbies entities, like Novelty Food or Destinations"
+      },
+      "entity": {
+        "id": "847528646185070592",
+        "name": "Luxury Cars",
+        "description": "Luxury"
+      }
+    },
+    {
+      "domain": {
+        "id": "66",
+        "name": "Interests and Hobbies Category",
+        "description": "A grouping of interests and hobbies entities, like Novelty Food or Destinations"
+      },
+      "entity": {
+        "id": "864938653063159808",
+        "name": "Hospitality",
+        "description": "Hospitality"
+      }
+    },
+    {
+      "domain": {
+        "id": "67",
+        "name": "Interests and Hobbies",
+        "description": "Interests, opinions, and behaviors of individuals, groups, or cultures; like Speciality Cooking or Theme Parks"
+      },
+      "entity": {
+        "id": "864939492947275776",
+        "name": "Hotel/Motel",
+        "description": "Hotel/Motel"
+      }
+    },
+    {
+      "domain": {
+        "id": "131",
+        "name": "Unified Twitter Taxonomy",
+        "description": "A taxonomy of user interests. "
+      },
+      "entity": {
+        "id": "10044199219",
+        "name": "Tesla Motors"
+      }
+    },
+    {
+      "domain": {
+        "id": "131",
+        "name": "Unified Twitter Taxonomy",
+        "description": "A taxonomy of user interests. "
+      },
+      "entity": {
+        "id": "847528391163092993",
+        "name": "Automotive",
+        "description": "Car culture"
+      }
+    },
+    {
+      "domain": {
+        "id": "131",
+        "name": "Unified Twitter Taxonomy",
+        "description": "A taxonomy of user interests. "
+      },
+      "entity": {
+        "id": "1196845866138533888",
+        "name": "Automobile Brands"
+      }
+    }
+  ],
+  "edit_controls": {
+    "edits_remaining": 5,
+    "is_edit_eligible": true,
+    "editable_until": "2022-11-07T13:24:56.000Z"
+  },
+  "reply_settings": "everyone"
+}

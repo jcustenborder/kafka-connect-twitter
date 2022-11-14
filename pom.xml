@@ -30,6 +30,14 @@
                 <role>Committer</role>
             </roles>
         </developer>
+        <developer>
+            <id>arkadius</id>
+            <name>Arek Burdach</name>
+            <url>https://github.com/arkadius</url>
+            <roles>
+                <role>Committer</role>
+            </roles>
+        </developer>
     </developers>
     <scm>
         <connection>scm:git:https://github.com/jcustenborder/kafka-connect-twitter.git</connection>
@@ -40,19 +48,17 @@
         <system>github</system>
         <url>https://github.com/jcustenborder/kafka-connect-twitter/issues</url>
     </issueManagement>
-    <properties>
-        <twitter4j.version>4.0.6</twitter4j.version>
-    </properties>
     <dependencies>
         <dependency>
-            <groupId>org.twitter4j</groupId>
-            <artifactId>twitter4j-core</artifactId>
-            <version>${twitter4j.version}</version>
+            <groupId>com.twitter</groupId>
+            <artifactId>twitter-api-java-sdk</artifactId>
+            <version>2.0.3</version>
         </dependency>
         <dependency>
-            <groupId>org.twitter4j</groupId>
-            <artifactId>twitter4j-stream</artifactId>
-            <version>${twitter4j.version}</version>
+            <groupId>io.confluent</groupId>
+            <artifactId>kafka-connect-avro-converter</artifactId>
+            <version>7.3.0</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <build>
@@ -74,6 +80,11 @@
                     <supportUrl>${pom.issueManagement.url}</supportUrl>
                     <supportSummary>Support provided through community involvement.</supportSummary>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>3.1.2</version>
             </plugin>
         </plugins>
     </build>
