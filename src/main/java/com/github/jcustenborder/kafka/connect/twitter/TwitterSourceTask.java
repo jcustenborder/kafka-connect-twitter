@@ -35,6 +35,7 @@ import com.twitter.clientlib.model.RuleNoId;
 import com.twitter.clientlib.model.Tweet;
 import org.apache.kafka.connect.data.Schema;
 import org.apache.kafka.connect.data.Struct;
+import org.apache.kafka.connect.errors.RetriableException;
 import org.apache.kafka.connect.source.SourceRecord;
 import org.apache.kafka.connect.source.SourceTask;
 import org.slf4j.Logger;
@@ -77,7 +78,8 @@ public class TwitterSourceTask extends SourceTask {
     try {
       twitterStream = initTweetsStreamProcessing(apiInstance);
     } catch (ApiException e) {
-      throw new RuntimeException(e);
+      // Api exception can be temporary. We will try to retry it a few times.
+      throw new RetriableException(e);
     }
     running = true;
     Thread readingThread = new TweetsStreamProcessingThread(apiInstance, twitterStream);
