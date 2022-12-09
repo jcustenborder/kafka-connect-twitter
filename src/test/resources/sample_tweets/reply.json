@@ -1,0 +1,153 @@
+{
+  "id": "1589784924004884480",
+  "created_at": "2022-11-08T01:00:37.000Z",
+  "in_reply_to_user_id": "44196397",
+  "public_metrics": {
+    "retweet_count": 60,
+    "reply_count": 17,
+    "like_count": 1178,
+    "quote_count": 2
+  },
+  "entities": {
+    "urls": [
+      {
+        "start": 10,
+        "end": 33,
+        "url": "https://t.co/W6qgqw4O0V",
+        "expanded_url": "https://twitter.com/KMAC_LA/status/1589784924004884480/photo/1",
+        "display_url": "pic.twitter.com/W6qgqw4O0V",
+        "media_key": "3_1589784920280297472"
+      }
+    ],
+    "mentions": [
+      {
+        "start": 0,
+        "end": 9,
+        "username": "elonmusk",
+        "id": "44196397"
+      }
+    ]
+  },
+  "attachments": {
+    "media_keys": [
+      "3_1589784920280297472"
+    ]
+  },
+  "edit_history_tweet_ids": [
+    "1589784924004884480"
+  ],
+  "text": "@elonmusk https://t.co/W6qgqw4O0V",
+  "context_annotations": [
+    {
+      "domain": {
+        "id": "46",
+        "name": "Business Taxonomy",
+        "description": "Categories within Brand Verticals that narrow down the scope of Brands"
+      },
+      "entity": {
+        "id": "1557696848252391426",
+        "name": "Financial Services Business",
+        "description": "Brands, companies, advertisers and every non-person handle with the profit intent related to Banks, Credit cards, Insurance, Investments, Stocks "
+      }
+    },
+    {
+      "domain": {
+        "id": "46",
+        "name": "Business Taxonomy",
+        "description": "Categories within Brand Verticals that narrow down the scope of Brands"
+      },
+      "entity": {
+        "id": "1557697333571112960",
+        "name": "Technology Business",
+        "description": "Brands, companies, advertisers and every non-person handle with the profit intent related to softwares, apps, communication equipments, hardwares"
+      }
+    },
+    {
+      "domain": {
+        "id": "10",
+        "name": "Person",
+        "description": "Named people in the world like Nelson Mandela"
+      },
+      "entity": {
+        "id": "808713037230157824",
+        "name": "Elon Musk",
+        "description": "Elon Musk"
+      }
+    },
+    {
+      "domain": {
+        "id": "65",
+        "name": "Interests and Hobbies Vertical",
+        "description": "Top level interests and hobbies groupings, like Food or Travel"
+      },
+      "entity": {
+        "id": "781974596148793345",
+        "name": "Business & finance"
+      }
+    },
+    {
+      "domain": {
+        "id": "66",
+        "name": "Interests and Hobbies Category",
+        "description": "A grouping of interests and hobbies entities, like Novelty Food or Destinations"
+      },
+      "entity": {
+        "id": "857878777191211008",
+        "name": "Leadership",
+        "description": "Leadership"
+      }
+    },
+    {
+      "domain": {
+        "id": "131",
+        "name": "Unified Twitter Taxonomy",
+        "description": "A taxonomy of user interests. "
+      },
+      "entity": {
+        "id": "808713037230157824",
+        "name": "Elon Musk",
+        "description": "Elon Musk"
+      }
+    },
+    {
+      "domain": {
+        "id": "131",
+        "name": "Unified Twitter Taxonomy",
+        "description": "A taxonomy of user interests. "
+      },
+      "entity": {
+        "id": "1091420346660470784",
+        "name": "Tech personalities",
+        "description": "Tech Professionals"
+      }
+    },
+    {
+      "domain": {
+        "id": "131",
+        "name": "Unified Twitter Taxonomy",
+        "description": "A taxonomy of user interests. "
+      },
+      "entity": {
+        "id": "1166406108623163392",
+        "name": "Business personalities"
+      }
+    }
+  ],
+  "possibly_sensitive": false,
+  "source": "TweetDeck",
+  "author_id": "2302290235",
+  "edit_controls": {
+    "edits_remaining": 5,
+    "is_edit_eligible": false,
+    "editable_until": "2022-11-08T01:30:37.000Z"
+  },
+  "referenced_tweets": [
+    {
+      "type": "replied_to",
+      "id": "1589784884666859520"
+    }
+  ],
+  "conversation_id": "1589784134691741696",
+  "reply_settings": "everyone",
+  "lang": "qme"
+}

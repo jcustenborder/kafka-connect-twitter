@@ -1,0 +1,157 @@
+{
+  "id": "1590294109771943938",
+  "created_at": "2022-11-09T10:43:56.000Z",
+  "public_metrics": {
+    "retweet_count": 20,
+    "reply_count": 19,
+    "like_count": 161,
+    "quote_count": 3
+  },
+  "entities": {
+    "urls": [
+      {
+        "start": 47,
+        "end": 70,
+        "url": "https://t.co/NYvR5ronJP",
+        "expanded_url": "https://twitter.com/NewCryptoGlobe/status/1590294109771943938/photo/1",
+        "display_url": "pic.twitter.com/NYvR5ronJP",
+        "media_key": "3_1590294103606136832"
+      }
+    ],
+    "hashtags": [
+      {
+        "start": 38,
+        "end": 46,
+        "tag": "Bitcoin"
+      }
+    ]
+  },
+  "attachments": {
+    "media_keys": [
+      "3_1590294103606136832"
+    ]
+  },
+  "edit_history_tweet_ids": [
+    "1590294109771943938"
+  ],
+  "text": "Już prawie. Wytrzymajcie bombelki \uD83D\uDC4A\uD83D\uDCC9\uD83D\uDCC8 #Bitcoin https://t.co/NYvR5ronJP",
+  "context_annotations": [
+    {
+      "domain": {
+        "id": "46",
+        "name": "Business Taxonomy",
+        "description": "Categories within Brand Verticals that narrow down the scope of Brands"
+      },
+      "entity": {
+        "id": "1557696848252391426",
+        "name": "Financial Services Business",
+        "description": "Brands, companies, advertisers and every non-person handle with the profit intent related to Banks, Credit cards, Insurance, Investments, Stocks "
+      }
+    },
+    {
+      "domain": {
+        "id": "30",
+        "name": "Entities [Entity Service]",
+        "description": "Entity Service top level domain, every item that is in Entity Service should be in this domain"
+      },
+      "entity": {
+        "id": "1007360414114435072",
+        "name": "Bitcoin cryptocurrency",
+        "description": "Bitcoin Cryptocurrency"
+      }
+    },
+    {
+      "domain": {
+        "id": "66",
+        "name": "Interests and Hobbies Category",
+        "description": "A grouping of interests and hobbies entities, like Novelty Food or Destinations"
+      },
+      "entity": {
+        "id": "913142676819648512",
+        "name": "Cryptocurrencies",
+        "description": "Cryptocurrency"
+      }
+    },
+    {
+      "domain": {
+        "id": "131",
+        "name": "Unified Twitter Taxonomy",
+        "description": "A taxonomy of user interests. "
+      },
+      "entity": {
+        "id": "913142676819648512",
+        "name": "Cryptocurrencies",
+        "description": "Cryptocurrency"
+      }
+    },
+    {
+      "domain": {
+        "id": "131",
+        "name": "Unified Twitter Taxonomy",
+        "description": "A taxonomy of user interests. "
+      },
+      "entity": {
+        "id": "1007360414114435072",
+        "name": "Bitcoin cryptocurrency",
+        "description": "Bitcoin Cryptocurrency"
+      }
+    },
+    {
+      "domain": {
+        "id": "131",
+        "name": "Unified Twitter Taxonomy",
+        "description": "A taxonomy of user interests. "
+      },
+      "entity": {
+        "id": "1484181943616884743",
+        "name": "Cryptocoins"
+      }
+    },
+    {
+      "domain": {
+        "id": "131",
+        "name": "Unified Twitter Taxonomy",
+        "description": "A taxonomy of user interests. "
+      },
+      "entity": {
+        "id": "1491481998862348291",
+        "name": "Digital asset industry"
+      }
+    },
+    {
+      "domain": {
+        "id": "131",
+        "name": "Unified Twitter Taxonomy",
+        "description": "A taxonomy of user interests. "
+      },
+      "entity": {
+        "id": "1492162686204854274",
+        "name": "Digital assets & cryptocurrency",
+        "description": "Cryptocurrency"
+      }
+    },
+    {
+      "domain": {
+        "id": "174",
+        "name": "Digital Assets & Crypto",
+        "description": "For cryptocurrency entities"
+      },
+      "entity": {
+        "id": "1007360414114435072",
+        "name": "Bitcoin cryptocurrency",
+        "description": "Bitcoin Cryptocurrency"
+      }
+    }
+  ],
+  "possibly_sensitive": false,
+  "source": "Twitter for iPhone",
+  "author_id": "1474153730887016453",
+  "edit_controls": {
+    "edits_remaining": 5,
+    "is_edit_eligible": false,
+    "editable_until": "2022-11-09T11:13:56.000Z"
+  },
+  "conversation_id": "1590294109771943938",
+  "reply_settings": "everyone",
+  "lang": "pl"
+}
